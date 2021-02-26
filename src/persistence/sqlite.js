@@ -30,9 +30,11 @@ function init() {
 
 async function teardown() {
     return new Promise((acc, rej) => {
-        db.close((err) => {
-            if (err) rej(err);
-            else acc();
+        db.run('DELETE FROM todo_items', (err) => {
+            db.close((err) => {
+                if (err) rej(err);
+                else acc();
+            });
         });
     });
 }

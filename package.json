@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "prettify": "prettier -l --write \"**/*.js\"",
-    "test": "jest",
+    "test": "jest --watchAll --coverage",
     "dev": "nodemon src/index.js"
   },
   "prettier": {

@@ -7,10 +7,11 @@ const ITEM = {
     completed: false,
 };
 
-beforeEach(() => {
+beforeEach(async () => {
     if (fs.existsSync('./../../todos/todo.db')) {
         fs.unlinkSync('./../../todos/todo.db');
     }
+    await db.init();
 });
 
 afterEach(async () => {
@@ -22,7 +23,6 @@ test('whenInitializeDB_ThenSuccesfull', async () => {
 });
 
 test('givenAnItem_WhenSaveOnDB_ThenRetriveItems', async () => {
-    await db.init();
     await db.storeItem(ITEM);
     const items = await db.getItems();
     expect(items.length).toBe(1);
@@ -30,7 +30,6 @@ test('givenAnItem_WhenSaveOnDB_ThenRetriveItems', async () => {
 });
 
 test('givenAnItem_WhenUpdateItem_ThenItemCompleted', async () => {
-    await db.init();
     const initialItems = await db.getItems();
     expect(initialItems.length).toBe(0);
 
@@ -43,7 +42,6 @@ test('givenAnItem_WhenUpdateItem_ThenItemCompleted', async () => {
 });
 
 test('givenAnItemId_WhenDeleteItem_ThenNoItems', async () => {
-    await db.init();
     await db.storeItem(ITEM);
     await db.removeItem(ITEM.id);
     const items = await db.getItems();

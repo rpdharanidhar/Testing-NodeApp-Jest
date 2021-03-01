@@ -22,9 +22,7 @@ app.delete('/items/:id', deleteItem);
 let server = http.createServer(app);
 
 db.init()
-    .then(() => {
-        server.listen(80);
-    })
+    .then(() => {})
     .catch((err) => {
         console.error(err);
         process.exit(1);
@@ -35,6 +33,8 @@ const gracefulShutdown = () => {
         .catch(() => {})
         .then(() => process.exit());
 };
+
+server.listen(80);
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);

@@ -1,5 +1,5 @@
 # Testing Node App with Jest
-> Using Jest in order to add unit and function test to Node App.
+> Using Jest and Supertest in order to add unit and function test to Node App.
 
 | App Demo | Test Result |
 | ------------- | ------------- |

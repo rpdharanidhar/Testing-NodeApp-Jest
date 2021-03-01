@@ -23,7 +23,7 @@ let server = http.createServer(app);
 
 db.init()
     .then(() => {
-        //app.listen(3000, () => console.log('Listening on port 3000'));
+        server.listen(80);
     })
     .catch((err) => {
         console.error(err);
@@ -35,9 +35,6 @@ const gracefulShutdown = () => {
         .catch(() => {})
         .then(() => process.exit());
 };
-
-server.listen(80);
-//app.listen(3000, () => console.log('Listening on port 3000'));
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);

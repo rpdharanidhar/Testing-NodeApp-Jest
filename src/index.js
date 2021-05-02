@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const db = require('./persistence');
 const app = express();
+require('dotenv').config();
 
 const getItems = require('./routes/getItems');
 const addItem = require('./routes/addItem');
@@ -34,7 +35,7 @@ const gracefulShutdown = () => {
         .then(() => process.exit());
 };
 
-server.listen(80);
+server.listen(3000 || process.env.PORT);
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);

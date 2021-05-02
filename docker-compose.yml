@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app:
     image: node:12-alpine
-    command: sh -c "yarn install && yarn run dev"
+    command: sh -c "npm install && npm run dev"
     ports:
       - 3000:3000
     working_dir: /app
@@ -11,8 +11,8 @@ services:
       - ./:/app
     environment:
       MYSQL_HOST: mysql
-      MYSQL_USER: YOUR_USER
-      MYSQL_PASSWORD: YOUR_PASSWORD
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
       MYSQL_DB: todos
 
   mysql:
@@ -20,7 +20,7 @@ services:
     volumes:
       - todo-mysql-data:/var/lib/mysql
     environment: 
-      MYSQL_ROOT_PASSWORD: YOUR_PASSWORD
+      MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: todos
 
 volumes:

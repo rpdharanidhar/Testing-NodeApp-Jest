@@ -33,7 +33,7 @@ async function init() {
     return new Promise((resolve, reject) => {
         pool.query(
             'CREATE TABLE IF NOT EXISTS todo_items (id varchar(36), name varchar(255), completed boolean)',
-            (error) => {
+            (err) => {
                 if (err) return reject(err);
                 console.log(`Connected to mysql db at host ${HOST}`);
                 resolve();

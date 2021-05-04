@@ -1,4 +1,5 @@
 const http = require('http');
+const compression = require('compression');
 const express = require('express');
 const path = require('path');
 const db = require('./persistence');
@@ -10,6 +11,7 @@ const addItem = require('./routes/addItem');
 const updateItem = require('./routes/updateItem');
 const deleteItem = require('./routes/deleteItem');
 
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

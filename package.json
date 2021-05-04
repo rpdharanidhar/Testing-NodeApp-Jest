@@ -8,7 +8,8 @@
   "license": "ISC",
   "scripts": {
     "prettify": "prettier -l --write \"**/*.js\"",
-    "test": "jest --coverage --verbose",
+    "test:unit": "jest ./spec",
+    "test:functional": "jest ./functional",
     "test:watch": "jest --watchAll --detectOpenHandles",
     "dev": "nodemon ./src/index.js",
     "start": "node ./src/index.js"

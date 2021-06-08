@@ -4,5 +4,9 @@ node_modules
 todos
 coverage
 Dockerfile
-docker-compose.yml
+.dockerignore
+docker-compose*
 docs
+.env
+.git
+.gitignore

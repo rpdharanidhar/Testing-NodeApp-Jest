@@ -4,3 +4,5 @@ package-lock.json
 *.gz
 todos
 coverage
+.env
+docker-compose*

@@ -42,7 +42,7 @@ $ npm start
 
 ### Run docker compose
 
-There are two enviroments in Docker Compose. These can be executed as follows.
+There are two environments in Docker Compose. These can be executed as follows.
 
 -   Run development environment
 

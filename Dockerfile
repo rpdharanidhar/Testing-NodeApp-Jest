@@ -1,14 +1,25 @@
 # syntax=docker/dockerfile:1
 FROM node:12-alpine as base
+
 WORKDIR /app
 COPY package* ./
+RUN npm install
+COPY . .
 
 FROM base as test 
-RUN npm ci
-COPY . .
-RUN npm run test:check
+RUN npm run test
 
-FROM base as prod
+FROM base as development 
+CMD [ "npm", "run", "dev"]
+
+FROM base as build 
 RUN npm prune --production
-COPY . .
-CMD ["node", "src/index.js"]
+RUN apk update && apk add curl bash && rm -rf /var/cache/apk/*
+RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
+RUN /usr/local/bin/node-prune
+
+FROM gcr.io/distroless/nodejs:12 as production
+EXPOSE 3000
+COPY --from=build /app /app
+WORKDIR /app
+CMD ["src/index.js"]

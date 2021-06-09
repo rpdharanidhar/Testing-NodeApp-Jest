@@ -40,7 +40,7 @@ $ npm start
 
 ## Useful docker comands
 
-### Run the tests
+### Run docker compose
 
 There are two enviroments in Docker Compose. These can be executed as follows.
 

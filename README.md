@@ -27,7 +27,7 @@ There are two types of tests, the unit tests and the functional tests. These can
 -   Run both unit and functional tests
 
     ```console
-    $ npm run test:check
+    $ npm run test
     ```
 
 ### Run the application
@@ -37,3 +37,27 @@ Run the application which will be listening on port `3000`.
 ```console
 $ npm start
 ```
+
+## Useful docker comands
+
+### Run the tests
+
+There are two enviroments in Docker Compose. These can be executed as follows.
+
+-   Run development environment
+
+    ```console
+    $ docker-compose -f docker-compose.dev.yml up --build
+    ```
+
+-   Run production environment
+
+    ```console
+    $ docker-compose -f docker-compose.yml up --build
+    ```
+
+-   Run tests inside Docker container
+
+    ```console
+    $ docker build -t node-docker --target test .
+    ```

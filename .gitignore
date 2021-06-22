@@ -6,3 +6,4 @@ todos
 coverage
 .env
 docker-compose*
+!docker-compose.dev.yml

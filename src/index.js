@@ -4,30 +4,10 @@ const express = require('express');
 const path = require('path');
 const db = require('./persistence');
 const app = express();
-const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerDocument = require('../swagger.json');
 const swaggerUI = require('swagger-ui-express');
 
 require('dotenv').config();
-
-const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Todo API with Swagger',
-            version: '1.0.0',
-            description:
-                'This is a TODO API application made with Express and documented with Swagger',
-        },
-        servers: [
-            {
-                url: 'http://localhost:8080',
-            },
-        ],
-    },
-    apis: ['./routes/*.js'],
-};
-
-const specs = swaggerJsDoc(options);
 
 const getItems = require('./routes/getItems');
 const addItem = require('./routes/addItem');
@@ -37,11 +17,7 @@ const deleteItem = require('./routes/deleteItem');
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(
-    '/api-docs',
-    swaggerUI.serve,
-    swaggerUI.setup(specs, { explorer: true }),
-);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(express.static(path.join(__dirname, 'static')));
 
 app.get('/items', getItems);
@@ -64,7 +40,7 @@ const gracefulShutdown = () => {
         .then(() => process.exit());
 };
 
-server.listen(8080 || process.env.PORT);
+server.listen(3000 || process.env.PORT);
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);

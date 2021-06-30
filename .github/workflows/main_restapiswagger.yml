@@ -31,6 +31,7 @@ jobs:
             - name: npm install, build, and test
               run: |
                   npm ci --ignore-scripts
+                  npm install sqlite3 --build-from-source
 
             - name: Upload artifact for deployment job
               uses: actions/upload-artifact@v2

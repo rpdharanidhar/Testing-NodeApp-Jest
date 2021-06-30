@@ -1,7 +1,7 @@
 const http = require('http');
 const compression = require('compression');
 const express = require('express');
-const path = require('path');
+
 const db = require('./persistence');
 const app = express();
 const swaggerDocument = require('../swagger.json');
@@ -18,12 +18,15 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-app.use(express.static(path.join(__dirname, 'static')));
 
 app.get('/items', getItems);
 app.post('/items', addItem);
 app.put('/items/:id', updateItem);
 app.delete('/items/:id', deleteItem);
+
+app.get('*', (req, res) => {
+    res.redirect('/api-docs');
+});
 
 let server = http.createServer(app);
 

@@ -43,7 +43,7 @@ const gracefulShutdown = () => {
         .then(() => process.exit());
 };
 
-server.listen(3000 || process.env.PORT);
+server.listen(process.env.PORT || 8080);
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);

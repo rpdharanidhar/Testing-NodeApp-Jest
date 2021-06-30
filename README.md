@@ -2,7 +2,7 @@
 
 Using Jest and Supertest to add unit and functional test to Node App.
 
-| Test                                                                                                            | Api Demo Result                                                                                                 |
+| <div style="width:130px">Test</div>                                                                             | Api Demo Result                                                                                                 |
 | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | ![image](https://user-images.githubusercontent.com/29106855/109544234-4fa71d80-7a95-11eb-8c93-57a01a0a35b4.png) | ![image](https://user-images.githubusercontent.com/29106855/124027580-a9264700-d9b8-11eb-9f30-0a200f99f8ff.png) |
 

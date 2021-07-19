@@ -6,6 +6,7 @@ const db = require('./persistence');
 const app = express();
 const swaggerDocument = require('../swagger.json');
 const swaggerUI = require('swagger-ui-express');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -18,6 +19,7 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use(cors());
 
 app.get('/items', getItems);
 app.post('/items', addItem);

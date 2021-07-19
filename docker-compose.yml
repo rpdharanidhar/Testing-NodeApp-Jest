@@ -7,7 +7,7 @@ services:
             target: production
         container_name: todo-app
         ports:
-            - 3000:3000
+            - 8080:8080
         working_dir: /app
         env_file:
             - ./.env

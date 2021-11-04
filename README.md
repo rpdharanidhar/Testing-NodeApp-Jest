@@ -58,9 +58,9 @@ There are two environments in Docker Compose. These can be executed as follows.
 
 -   Run tests inside Docker container
 
-        ```console
-        $ docker build -t node-docker --target test .
-        ```
+    ```console
+    $ docker build -t node-docker --target test .
+    ```
 
 https://docs.microsoft.com/en-us/learn/modules/deploy-nodejs/
 https://github.com/MicrosoftDocs/node-essentials

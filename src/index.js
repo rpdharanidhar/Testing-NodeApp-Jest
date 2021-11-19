@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
     '/api-docs',
     function (req, res, next) {
-        swaggerDocument.host = `${req.protocol}://${req.get('host')}`;
+        swaggerDocument.servers.url = `${req.protocol}://${req.get('host')}`;
         req.swaggerDoc = swaggerDocument;
         next();
     },

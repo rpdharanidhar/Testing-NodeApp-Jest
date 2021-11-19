@@ -18,7 +18,16 @@ const deleteItem = require('./routes/deleteItem');
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use(
+    '/api-docs',
+    function (req, res, next) {
+        swaggerDocument.host = `${req.protocol}://${req.get('host')}`;
+        req.swaggerDoc = swaggerDocument;
+        next();
+    },
+    swaggerUI.serve,
+    swaggerUI.setup(),
+);
 app.use(cors());
 
 app.get('/items', getItems);

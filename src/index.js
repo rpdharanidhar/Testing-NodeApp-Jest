@@ -21,8 +21,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
     '/api-docs',
     function (req, res, next) {
-        swaggerDocument.servers.url = `${req.protocol}://${req.get('host')}`;
+        swaggerDocument.servers[0].url = `${req.protocol}://${req.get('host')}`;
         req.swaggerDoc = swaggerDocument;
+        console.log(swaggerDocument);
         next();
     },
     swaggerUI.serve,
@@ -54,7 +55,7 @@ const gracefulShutdown = () => {
         .then(() => process.exit());
 };
 
-server.listen(process.env.PORT || 8080);
+server.listen(process.env.PORT || 3000);
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);

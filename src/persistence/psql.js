@@ -18,7 +18,7 @@ async function init() {
     const database = DB;
     await waitPort({ host, port: 5432 });
 
-    pool = new Pool({
+    const config = {
         host,
         user,
         max: 20,
@@ -26,7 +26,25 @@ async function init() {
         database,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,
-    });
+    };
+
+    function getConfigurationOptions() {
+        if (process.env.NODE_ENV === 'prod') {
+            return {
+                ...config,
+                ssl: {
+                    rejectUnauthorized: false,
+                    ca: fs
+                        .readFileSync(
+                            __dirname + '/cert/DigiCertGlobalRootCA.crt.pem',
+                        )
+                        .toString(),
+                },
+            };
+        }
+        return config;
+    }
+    pool = new Pool(getConfigurationOptions());
 
     return new Promise((resolve, reject) => {
         pool.query(

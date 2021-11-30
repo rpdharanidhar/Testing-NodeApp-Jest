@@ -39,8 +39,8 @@ test('shouldUpdateItem ', async () => {
         .set('Accept', 'application/json');
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('name', todo.name);
-    expect(response.body).toHaveProperty('completed', !todo.completed);
+    expect(response.body).toHaveProperty('name', newItem.name);
+    expect(response.body).toHaveProperty('completed', !newItem.completed);
 });
 
 test('shouldDeleteItem ', async () => {

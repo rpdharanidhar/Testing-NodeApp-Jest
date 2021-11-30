@@ -1,42 +1,58 @@
 const waitPort = require('wait-port');
 const fs = require('fs');
-const mysql = require('mysql');
+const { Pool } = require('pg');
 
 const {
-    MYSQL_HOST: HOST,
-    MYSQL_HOST_FILE: HOST_FILE,
-    MYSQL_USER_NODE: USER,
-    MYSQL_USER_FILE: USER_FILE,
-    MYSQL_PASSWORD: PASSWORD,
-    MYSQL_PASSWORD_FILE: PASSWORD_FILE,
-    MYSQL_DB: DB,
-    MYSQL_DB_FILE: DB_FILE,
+    PSQL_HOST: HOST,
+    POSTGRES_USER: USER,
+    POSTGRES_PASSWORD: PASSWORD,
+    POSTGRES_DB: DB,
 } = process.env;
 
 let pool;
 
 async function init() {
-    const host = HOST_FILE ? fs.readFileSync(HOST_FILE) : HOST;
-    const user = USER_FILE ? fs.readFileSync(USER_FILE) : USER;
-    const password = PASSWORD_FILE ? fs.readFileSync(PASSWORD_FILE) : PASSWORD;
-    const database = DB_FILE ? fs.readFileSync(DB_FILE) : DB;
-    await waitPort({ host, port: 3306 });
+    const host = HOST;
+    const user = USER;
+    const password = PASSWORD;
+    const database = DB;
+    await waitPort({ host, port: 5432 });
 
-    pool = mysql.createPool({
-        connectionLimit: 5,
+    const config = {
         host,
         user,
+        max: 20,
         password,
         database,
-    });
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 2000,
+    };
+
+    function getConfigurationOptions() {
+        if (process.env.NODE_ENV === 'prod') {
+            return {
+                ...config,
+                ssl: {
+                    rejectUnauthorized: false,
+                    ca: fs
+                        .readFileSync(
+                            __dirname + '/cert/DigiCertGlobalRootCA.crt.pem',
+                        )
+                        .toString(),
+                },
+            };
+        }
+        return config;
+    }
+    pool = new Pool(getConfigurationOptions());
 
     return new Promise((resolve, reject) => {
         pool.query(
             'CREATE TABLE IF NOT EXISTS todo_items (id varchar(36), name varchar(255), completed boolean)',
-            (err) => {
+            (err, res) => {
                 if (err) return reject(err);
-                console.log(`Connected to mysql db at host ${HOST}`);
-                resolve();
+                console.log(`Connected to PSQL db at host ${HOST}`);
+                resolve(res);
             },
         );
     });
@@ -53,26 +69,18 @@ async function teardown() {
 
 async function getItems() {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM todo_items', (err, rows) => {
+        pool.query('SELECT * FROM todo_items', (err, res) => {
             if (err) return reject(err);
-            resolve(
-                rows.map((item) => {
-                    return { ...item, completed: item.completed === 1 };
-                }),
-            );
+            resolve(res.rows);
         });
     });
 }
 
 async function getItem(id) {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM todo_items WHERE id=?', [id], (err, rows) => {
+        pool.query('SELECT * FROM todo_items WHERE id=$1', [id], (err, res) => {
             if (err) return reject(err);
-            resolve(
-                rows.map((item) => {
-                    return { ...item, completed: item.completed === 1 };
-                })[0],
-            );
+            resolve(res.rows[0]);
         });
     });
 }
@@ -80,8 +88,8 @@ async function getItem(id) {
 async function storeItem(item) {
     return new Promise((resolve, reject) => {
         pool.query(
-            'INSERT INTO todo_items (id, name, completed) VALUES (?, ?, ?)',
-            [item.id, item.name, item.completed ? 1 : 0],
+            'INSERT INTO todo_items (id, name, completed) VALUES ($1, $2, $3)',
+            [item.id, item.name, item.completed],
             (err) => {
                 if (err) return reject(err);
                 resolve();
@@ -93,8 +101,8 @@ async function storeItem(item) {
 async function updateItem(id, item) {
     return new Promise((resolve, reject) => {
         pool.query(
-            'UPDATE todo_items SET name=?, completed=? WHERE id=?',
-            [item.name, item.completed ? 1 : 0, id],
+            'UPDATE todo_items SET name=$1, completed=$2 WHERE id=$3',
+            [item.name, item.completed, id],
             (err) => {
                 if (err) return reject(err);
                 resolve();
@@ -105,7 +113,7 @@ async function updateItem(id, item) {
 
 async function removeItem(id) {
     return new Promise((resolve, rej) => {
-        pool.query('DELETE FROM todo_items WHERE id = ?', [id], (err) => {
+        pool.query('DELETE FROM todo_items WHERE id = $1', [id], (err) => {
             if (err) return rej(err);
             resolve();
         });

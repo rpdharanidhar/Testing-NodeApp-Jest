@@ -1,9 +1,9 @@
 node_modules
+/src/persistence/cert/*
 *.log
 *.gz
 todos
 coverage
-.env
 docker-compose*
 !docker-compose.dev.yml
 .vscode

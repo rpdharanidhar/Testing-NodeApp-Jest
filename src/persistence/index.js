@@ -1,3 +1,3 @@
 require('dotenv').config();
-if (process.env.MYSQL_HOST) module.exports = require('./mysql');
+if (process.env.NODE_ENV === 'prod') module.exports = require('./psql');
 else module.exports = require('./sqlite');

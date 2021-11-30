@@ -4,22 +4,18 @@ const { Pool } = require('pg');
 
 const {
     PSQL_HOST: HOST,
-    PSQL_HOST_FILE: HOST_FILE,
-    PSQL_USER_NODE: USER,
-    PSQL_USER_FILE: USER_FILE,
-    PSQL_PASSWORD: PASSWORD,
-    PSQL_PASSWORD_FILE: PASSWORD_FILE,
-    PSQL_DB: DB,
-    PSQL_DB_FILE: DB_FILE,
+    POSTGRES_USER: USER,
+    POSTGRES_PASSWORD: PASSWORD,
+    POSTGRES_DB: DB,
 } = process.env;
 
 let pool;
 
 async function init() {
-    const host = HOST_FILE ? fs.readFileSync(HOST_FILE) : HOST;
-    const user = USER_FILE ? fs.readFileSync(USER_FILE) : USER;
-    const password = PASSWORD_FILE ? fs.readFileSync(PASSWORD_FILE) : PASSWORD;
-    const database = DB_FILE ? fs.readFileSync(DB_FILE) : DB;
+    const host = HOST;
+    const user = USER;
+    const password = PASSWORD;
+    const database = DB;
     await waitPort({ host, port: 5432 });
 
     pool = new Pool({

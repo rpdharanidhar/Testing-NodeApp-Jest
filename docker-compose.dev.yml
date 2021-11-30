@@ -15,23 +15,25 @@ services:
         env_file:
             - ./.env
         environment:
-            MYSQL_HOST: $MYSQL_HOST
-            MYSQL_USER_NODE: $MYSQL_USER_NODE
-            MYSQL_PASSWORD: $MYSQL_PASSWORD
-            MYSQL_DB: $MYSQL_DATABASE
+            PSQL_HOST: $PSQL_HOST
+            POSTGRES_USER: $POSTGRES_USER
+            POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+            POSTGRES_DB: $POSTGRES_DB
+            NODE_ENV: "dev"
         depends_on:
-            - 'mysql'
+            - 'psql'
 
-    mysql:
-        image: mysql:5.7
-        container_name: mysql-db
+    psql:
+        image: postgres:14
+        container_name: psql-db
         volumes:
-            - todo-mysql-data:/var/lib/mysql
+            - todo-psql-data:/var/lib/postgresql/data
         env_file:
             - ./.env
         environment:
-            MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-            MYSQL_DATABASE: $MYSQL_DATABASE
+            POSTGRES_USER: $POSTGRES_USER
+            POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+            POSTGRES_DB: $POSTGRES_DB
 
 volumes:
-    todo-mysql-data:
+    todo-psql-data:

@@ -25,7 +25,8 @@ app.use(
     function (req, res, next) {
         swaggerDocument.servers[0].url = `${req.protocol}://${req.get('host')}`;
         req.swaggerDoc = swaggerDocument;
-        console.log(swaggerDocument);
+        if (process.env.NODE_ENV === 'development')
+            console.log(swaggerDocument);
         next();
     },
     swaggerUI.serve,

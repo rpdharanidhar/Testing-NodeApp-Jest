@@ -16,6 +16,7 @@ const getItem = require('./routes/getItem');
 const updateItem = require('./routes/updateItem');
 const deleteItem = require('./routes/deleteItem');
 
+app.use(cors());
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,7 +31,6 @@ app.use(
     swaggerUI.serve,
     swaggerUI.setup(),
 );
-app.use(cors());
 
 app.get('/items', getItems);
 app.post('/items', addItem);

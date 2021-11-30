@@ -55,11 +55,43 @@
                 "responses": {
                     "201": {
                         "description": "Created"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
             }
         },
         "/items/{id}": {
+            "get": {
+                "summary": "Get todo by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "$ref": "#/components/schemas/id"
+                        },
+                        "required": true,
+                        "description": "Id of todo to be updated"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Todo is obtained",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    }
+                }
+            },
             "put": {
                 "summary": "Update todo",
                 "parameters": [
@@ -72,7 +104,25 @@
                         "required": true,
                         "description": "Id of todo to be updated"
                     }
-                ]
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TodoInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Todo updated"
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    }
+                }
             },
             "delete": {
                 "summary": "Delete a todo",

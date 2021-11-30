@@ -57,11 +57,7 @@ async function getItems() {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM todo_items', (err, res) => {
             if (err) return reject(err);
-            resolve(
-                res.rows.map((item) => {
-                    return { ...item, completed: item.completed === 1 };
-                }),
-            );
+            resolve(res.rows);
         });
     });
 }
@@ -70,11 +66,7 @@ async function getItem(id) {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM todo_items WHERE id=$1', [id], (err, res) => {
             if (err) return reject(err);
-            resolve(
-                res.rows.map((item) => {
-                    return { ...item, completed: item.completed === 1 };
-                })[0],
-            );
+            resolve(res.rows[0]);
         });
     });
 }
@@ -83,7 +75,7 @@ async function storeItem(item) {
     return new Promise((resolve, reject) => {
         pool.query(
             'INSERT INTO todo_items (id, name, completed) VALUES ($1, $2, $3)',
-            [item.id, item.name, item.completed ? 1 : 0],
+            [item.id, item.name, item.completed],
             (err) => {
                 if (err) return reject(err);
                 resolve();
@@ -96,7 +88,7 @@ async function updateItem(id, item) {
     return new Promise((resolve, reject) => {
         pool.query(
             'UPDATE todo_items SET name=$1, completed=$2 WHERE id=$3',
-            [item.name, item.completed ? 1 : 0, id],
+            [item.name, item.completed, id],
             (err) => {
                 if (err) return reject(err);
                 resolve();
@@ -123,5 +115,3 @@ module.exports = {
     updateItem,
     removeItem,
 };
-//https://blog.logrocket.com/documenting-your-express-api-with-swagger/
-//https://www.section.io/engineering-education/documenting-node-js-rest-api-using-swagger/

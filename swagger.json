@@ -156,8 +156,7 @@
         "schemas": {
             "id": {
                 "type": "string",
-                "description": "An id of a todo",
-                "example": "7469dcd1-9de2-4e24-a3e9-e44fe128b750"
+                "description": "An id of a todo"
             },
             "Todo": {
                 "type": "object",

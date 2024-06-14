@@ -15,7 +15,9 @@ pipeline {
         SCANNER_HOME = tool 'sonarqube-scanner'
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
-        SONAR_TOKEN = "sqb_18c374423968093edca7d3b0814af51d80633230"    
+        SONAR_TOKEN = "sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
+        SONARQUBE_URL = 'http://localhost:9000' // Update this with your SonarQube server URL
+        SONARQUBE_TOKEN = credentials('Testing-NodeApp-Jest')  
     }
 
     stages {
@@ -66,16 +68,48 @@ pipeline {
             }
         }
 
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         script {
+        //             try {
+        //                 def scannerHome = tool 'sonarqube-scanner';
+        //                 withSonarQubeEnv() {
+        //                     bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
+        //                 }
+        //             } catch (Exception e) {
+        //                 echo "SonarQube stage has been failed...!!! better luck next time !!!."
+        //             }
+        //         }
+        //     }
+        // }
+
         stage('SonarQube Analysis') {
             steps {
                 script {
                     try {
-                        def scannerHome = tool 'sonarqube-scanner';
-                        withSonarQubeEnv() {
-                            bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
+                        withSonarQubeEnv('My SonarQube Server') {
+                            sh '''
+                                sonar-scanner \
+                                -Dsonar.projectKey=Testing-NodeApp-Jest \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=${env.SONARQUBE_URL} \
+                                -Dsonar.login=${env.SONAR_TOKEN}
+                            '''
                         }
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         echo "SonarQube stage has been failed...!!! better luck next time !!!."
+                    }
+                
+                }
+            }
+        }
+        
+        stage('Quality Gate') {
+            steps {
+                script {
+                    timeout(time: 1, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true
                     }
                 }
             }

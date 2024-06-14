@@ -143,13 +143,13 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
-            steps {
-                bat "docker-compose -f docker-compose.dev.yml up --build"
-            }
-        }
+        // stage('Run Docker Container') {
+        //     steps {
+        //         bat "docker-compose -f docker-compose.dev.yml up --build"
+        //     }
+        // }
 
-        stage('Pubat Docker Image to Hub') {
+        stage('Push the Docker Image to Hub') {
             steps {
                 bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} && docker-compose pubat rpdharanidhar/testing-nodeapp-jest"
             }

@@ -151,7 +151,7 @@ pipeline {
 
         stage('Push the Docker Image to Hub') {
             steps {
-                bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} && docker-compose pubat rpdharanidhar/testing-nodeapp-jest"
+                bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} && docker-compose push rpdharanidhar/testing-nodeapp-jest"
             }
         }
 

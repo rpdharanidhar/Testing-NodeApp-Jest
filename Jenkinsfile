@@ -138,7 +138,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('Testing-NodeApp-Jest', '-f Dockerfile .')
+                    docker.build('testing-nodeApp-jest', '-f Dockerfile .')
                 }
             }
         }

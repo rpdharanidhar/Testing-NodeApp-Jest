@@ -71,47 +71,47 @@ pipeline {
         stage('SonarQube-1Analysis') {
             steps {
                 script {
-                    try {
+                    // try {
                         def scannerHome = tool 'sonarqube-scanner';
                         withSonarQubeEnv() {
                             bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
                         }
-                    } catch (Exception e) {
-                        echo "SonarQube stage has been failed...!!! better luck next time !!!."
-                    }
+                    // } catch (Exception e) {
+                    //     echo "SonarQube stage has been failed...!!! better luck next time !!!."
+                    // }
                 }
             }
         }
 
-        stage('SonarQube-2analysis') {
-            steps {
-                script {
-                    try {
-                        bat "sonar-scanner \
-                            -Dsonar.projectKey=Testing-NodeApp-Jest \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
-                    }
-                    catch (Exception e) {
-                        echo "SonarQube stage has been failed in the 2nd try...!!! better luck next time !!!."
-                    }
-                }
-            }
-        }
+        // stage('SonarQube-2analysis') {
+        //     steps {
+        //         script {
+        //             try {
+        //                 bat "sonar-scanner \
+        //                     -Dsonar.projectKey=Testing-NodeApp-Jest \
+        //                     -Dsonar.sources=. \
+        //                     -Dsonar.host.url=http://localhost:9000 \
+        //                     -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
+        //             }
+        //             catch (Exception e) {
+        //                 echo "SonarQube stage has been failed in the 2nd try...!!! better luck next time !!!."
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('SonarQube-3Analysis') {
-            steps {
-                script {
-                    try {
-                        bat 'sonar-scanner -Dsonar.projectKey=Testing-NodeApp-Jest -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d'
-                    }
-                    catch (Exception e) {
-                        echo "SonarQube stage has been failed in the 3nd try...!!! better luck next time !!!."
-                    }
-                }
-            }
-        }
+        // stage('SonarQube-3Analysis') {
+        //     steps {
+        //         script {
+        //             try {
+        //                 bat 'sonar-scanner -Dsonar.projectKey=Testing-NodeApp-Jest -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d'
+        //             }
+        //             catch (Exception e) {
+        //                 echo "SonarQube stage has been failed in the 3nd try...!!! better luck next time !!!."
+        //             }
+        //         }
+        //     }
+        // }
         
         stage('Quality Gate') {
             steps {

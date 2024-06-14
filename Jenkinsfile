@@ -137,7 +137,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat "docker-compose build"
+                script {
+                    docker.build('Testing-NodeApp-Jest', '-f Dockerfile .')
+                }
             }
         }
 

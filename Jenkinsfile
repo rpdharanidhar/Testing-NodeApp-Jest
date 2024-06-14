@@ -33,12 +33,12 @@ pipeline {
         //     steps {
         //         script {
         //             // Install npm dependencies
-        //             sh 'sudo apt install npm'
-        //             sh 'sudo apt install nodejs'
-        //             sh 'npm install'
-        //             sh 'npm audit -fix'
-        //             sh 'npm audit report'
-        //             sh 'npm install --save-dev jest supertest'
+        //             bat 'sudo apt install npm'
+        //             bat 'sudo apt install nodejs'
+        //             bat 'npm install'
+        //             bat 'npm audit -fix'
+        //             bat 'npm audit report'
+        //             bat 'npm install --save-dev jest supertest'
         //         }
         //     }
         // }
@@ -47,7 +47,7 @@ pipeline {
             steps {
                 script {
                     // Run Mocha unit tests
-                    sh 'npm run test:unit'
+                    bat 'npm run test:unit'
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline {
             steps {
                 script {
                     // Run Mocha unit tests
-                    sh '$ npm run test:functional'
+                    bat '$ npm run test:functional'
                 }
             }
         }
@@ -65,7 +65,7 @@ pipeline {
             steps {
                 script {
                     // Run Mocha unit tests
-                    sh 'npm run test'
+                    bat 'npm run test'
                 }
             }
         }
@@ -76,7 +76,7 @@ pipeline {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
                         withSonarQubeEnv() {
-                            sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
+                            bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
                         }
                     } catch (Exception e) {
                         echo "SonarQube stage has been failed...!!! better luck next time !!!."
@@ -89,7 +89,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh "sonar-scanner \
+                        bat "sonar-scanner \
                             -Dsonar.projectKey=Testing-NodeApp-Jest \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=http://localhost:9000 \
@@ -106,7 +106,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'sonar-scanner -Dsonar.projectKey=Testing-NodeApp-Jest -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d'
+                        bat 'sonar-scanner -Dsonar.projectKey=Testing-NodeApp-Jest -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d'
                     }
                     catch (Exception e) {
                         echo "SonarQube stage has been failed in the 3nd try...!!! better luck next time !!!."
@@ -129,7 +129,7 @@ pipeline {
             steps {
                 script {
                     // Deploy the application
-                    sh 'npm start'
+                    bat 'npm start'
                 }
             }
         }
@@ -146,9 +146,9 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image to Hub') {
+        stage('Pubat Docker Image to Hub') {
             steps {
-                bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} && docker-compose push rpdharanidhar/testing-nodeapp-jest"
+                bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} && docker-compose pubat rpdharanidhar/testing-nodeapp-jest"
             }
         }
 
@@ -156,7 +156,7 @@ pipeline {
             steps {
                 script {
                     // Run tets inside the Docker container
-                    sh 'docker build -t node-docker --target test .'
+                    bat 'docker build -t node-docker --target test .'
                 }
             }
         }

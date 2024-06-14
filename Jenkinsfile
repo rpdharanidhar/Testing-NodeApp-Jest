@@ -160,6 +160,7 @@ pipeline {
                 // junit 'test-results.xml'
                 // // Archive coverage reports
                 // cobertura 'coverage/cobertura-coverage.xml'
+                echo "always block after post completion"
             }
         }
         success {

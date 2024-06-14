@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     // Run Mocha unit tests
-                    bat '$ npm run test:functional'
+                    bat 'npm run test:functional'
                 }
             }
         }

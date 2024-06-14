@@ -149,7 +149,7 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                bat "docker-compose -f docker-compose.dev.yml up --build"
+                bat "docker-compose -f docker-compose.dev.yml up --build -d"
             }
         }
 

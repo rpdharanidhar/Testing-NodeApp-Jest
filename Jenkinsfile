@@ -71,14 +71,14 @@ pipeline {
         stage('SonarQube-1Analysis') {
             steps {
                 script {
-                    // try {
+                    try {
                         def scannerHome = tool 'sonarqube-scanner';
                         withSonarQubeEnv() {
                             bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
                         }
-                    // } catch (Exception e) {
-                    //     echo "SonarQube stage has been failed...!!! better luck next time !!!."
-                    // }
+                    } catch (Exception e) {
+                        echo "SonarQube stage has been failed...!!! better luck next time !!!."
+                    }
                 }
             }
         }

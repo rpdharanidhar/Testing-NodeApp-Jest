@@ -1,0 +1,195 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Todo API with Swagger"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080/",
+            "description": "Api server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Todos",
+            "description": "API for todos"
+        }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/items": {
+            "get": {
+                "summary": "Get all todos",
+                "responses": {
+                    "200": {
+                        "description": "List of todos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Todo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new todo",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TodoInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/items/{id}": {
+            "get": {
+                "summary": "Get todo by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "$ref": "#/components/schemas/id"
+                        },
+                        "required": true,
+                        "description": "Id of todo to be updated"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Todo is obtained",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update todo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "$ref": "#/components/schemas/id"
+                        },
+                        "required": true,
+                        "description": "Id of todo to be updated"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TodoInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Todo updated"
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a todo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "$ref": "#/components/schemas/id"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Todo deleted successfully"
+                    },
+
+                    "404": {
+                        "description": "Todo not found"
+                    },
+
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "id": {
+                "type": "string",
+                "description": "An id of a todo"
+            },
+            "Todo": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "7469dcd1-9de2-4e24-a3e9-e44fe128b750"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "lorem ipsum"
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "example": "false"
+                    }
+                }
+            },
+            "TodoInput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Todo name",
+                        "example": "Lorem ipsum"
+                    },
+                    "completed": {
+                        "type": "boolean",
+                        "description": "The status of the todo",
+                        "example": false
+                    }
+                }
+            }
+        }
+    }
+}

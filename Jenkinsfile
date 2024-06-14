@@ -126,14 +126,14 @@ pipeline {
         //     }
         // }
 
-        stage('Deploy') {
-            steps {
-                script {
-                    // Deploy the application
-                    bat 'npm start'
-                }
-            }
-        }
+        // stage('Deploy') {
+        //     steps {
+        //         script {
+        //             // Deploy the application
+        //             bat 'npm start'
+        //         }
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {

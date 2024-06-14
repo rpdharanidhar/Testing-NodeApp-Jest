@@ -156,10 +156,10 @@ pipeline {
     post {
         always {
             script {
-                // Archive test results
-                junit 'test-results.xml'
-                // Archive coverage reports
-                cobertura 'coverage/cobertura-coverage.xml'
+                // // Archive test results
+                // junit 'test-results.xml'
+                // // Archive coverage reports
+                // cobertura 'coverage/cobertura-coverage.xml'
             }
         }
         success {

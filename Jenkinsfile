@@ -29,19 +29,19 @@ pipeline {
             }
         }
 
-        // stage('Install Dependencies') {
-        //     steps {
-        //         script {
-        //             // Install npm dependencies
-        //             sh 'sudo apt install npm'
-        //             sh 'sudo apt install nodejs'
-        //             sh 'npm install'
-        //             sh 'npm audit -fix'
-        //             sh 'npm audit report'
-        //             sh 'npm install --save-dev jest supertest'
-        //         }
-        //     }
-        // }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // Install npm dependencies
+                    sh 'sudo apt install npm'
+                    sh 'sudo apt install nodejs'
+                    sh 'npm install'
+                    sh 'npm audit -fix'
+                    sh 'npm audit report'
+                    sh 'npm install --save-dev jest supertest'
+                }
+            }
+        }
 
         stage('Run Unit Tests') {
             steps {
@@ -70,13 +70,13 @@ pipeline {
             }
         }
 
-        stage('SonarQube-Analysis') {
+        stage('SonarQube-1Analysis') {
             steps {
                 script {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
                         withSonarQubeEnv() {
-                            bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
+                            sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
                         }
                     } catch (Exception e) {
                         echo "SonarQube stage has been failed...!!! better luck next time !!!."
@@ -85,14 +85,32 @@ pipeline {
             }
         }
 
-        stage('SonarQube analysis') {
+        stage('SonarQube-2analysis') {
             steps {
                 script {
-                    bat "sonar-scanner \
-                        -Dsonar.projectKey=Testing-NodeApp-Jest \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://localhost:9000 \
-                        -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
+                    try {
+                        sh "sonar-scanner \
+                            -Dsonar.projectKey=Testing-NodeApp-Jest \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
+                    }
+                    catch (Exception e) {
+                        echo "SonarQube stage has been failed in the 2nd try...!!! better luck next time !!!."
+                    }
+                }
+            }
+        }
+
+        stage('SonarQube-3Analysis') {
+            steps {
+                script {
+                    try {
+                        sh 'sonar-scanner -Dsonar.projectKey=Testing-NodeApp-Jest -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d'
+                    }
+                    catch (Exception e) {
+                        echo "SonarQube stage has been failed in the 3nd try...!!! better luck next time !!!."
+                    }
                 }
             }
         }

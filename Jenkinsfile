@@ -122,7 +122,6 @@ pipeline {
                                 bat "waitForQualityGate abortPipeline: true"
                             }
                         }
-                    }
                 }
             }
         }

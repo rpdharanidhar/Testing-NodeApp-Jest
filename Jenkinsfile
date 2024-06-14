@@ -17,7 +17,7 @@ pipeline {
         SONAR_PASSWORD = "polar"
         SONAR_TOKEN = "sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
         SONARQUBE_URL = 'http://localhost:9000' // Update this with your SonarQube server URL
-        SONARQUBE_TOKEN = credentials('Testing-NodeApp-Jest')  
+        SONARQUBE_TOKEN = "sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d" 
     }
 
     stages {
@@ -68,20 +68,20 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         script {
-        //             try {
-        //                 def scannerHome = tool 'sonarqube-scanner';
-        //                 withSonarQubeEnv() {
-        //                     bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
-        //                 }
-        //             } catch (Exception e) {
-        //                 echo "SonarQube stage has been failed...!!! better luck next time !!!."
-        //             }
-        //         }
-        //     }
-        // }
+        stage('SonarQube-Analysis') {
+            steps {
+                script {
+                    try {
+                        def scannerHome = tool 'sonarqube-scanner';
+                        withSonarQubeEnv() {
+                            bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
+                        }
+                    } catch (Exception e) {
+                        echo "SonarQube stage has been failed...!!! better luck next time !!!."
+                    }
+                }
+            }
+        }
 
         stage('SonarQube Analysis') {
             steps {
@@ -98,7 +98,7 @@ pipeline {
                         }
                     }
                     catch (Exception e) {
-                        echo "SonarQube stage has been failed...!!! better luck next time !!!."
+                        echo "SonarQube stage has been failed in the local depl...!!! better luck next time !!!."
                     }
                 
                 }

@@ -86,18 +86,13 @@ pipeline {
 
         stage('SonarQube analysis') {
             steps {
-                try {
-                    script {
-                        bat "sonar-scanner \
-                            -Dsonar.projectKey=Testing-NodeApp-Jest \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
-                    }
+                script {
+                    bat "sonar-scanner \
+                        -Dsonar.projectKey=Testing-NodeApp-Jest \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
                 }
-                catch (Exception e) {
-                    echo "SonarQube stage has been failed in the local depl...!!! better luck next time !!!."
-                } 
             }
         }
         

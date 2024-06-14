@@ -116,11 +116,12 @@ pipeline {
         stage('Quality Gate') {
             steps {
                 script {
-                    withSonarQubeEnv() {
-                        timeout(time: 1, unit: 'MINUTES') {
-                            waitForQualityGate abortPipeline: true
+                    def scannerHome = tool 'sonarqube-scanner';
+                        withSonarQubeEnv() {
+                            timeout(time: 1, unit: 'MINUTES') {
+                                bat "waitForQualityGate abortPipeline: true"
+                            }
                         }
-                    
                     }
                 }
             }

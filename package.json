@@ -23,10 +23,10 @@
         "singleQuote": true
     },
     "devDependencies": {
-        "jest": "^27.3.1",
+        "jest": "^27.5.1",
         "nodemon": "^2.0.15",
         "prettier": "^2.4.1",
-        "supertest": "^6.1.6"
+        "supertest": "^6.3.4"
     },
     "dependencies": {
         "compression": "^1.7.4",

@@ -34,7 +34,7 @@ pipeline {
                 script {
                     // Install npm dependencies
                     bat 'npm install'
-                    bat 'npm audit -fix'
+                    bat 'npm audit fix'
                     bat 'npm audit report'
                     bat 'npm install --save-dev jest supertest'
                 }

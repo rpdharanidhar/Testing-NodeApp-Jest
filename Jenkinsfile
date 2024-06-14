@@ -83,25 +83,20 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('SonarQube analysis') {
             steps {
-                script {
-                    try {
-                        withSonarQubeEnv('My SonarQube Server') {
-                            sh '''
-                                sonar-scanner \
-                                -Dsonar.projectKey=Testing-NodeApp-Jest \
-                                -Dsonar.sources=. \
-                                -Dsonar.host.url=${env.SONARQUBE_URL} \
-                                -Dsonar.login=${env.SONAR_TOKEN}
-                            '''
-                        }
+                try {
+                    script {
+                        bat "sonar-scanner \
+                            -Dsonar.projectKey=Testing-NodeApp-Jest \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
                     }
-                    catch (Exception e) {
-                        echo "SonarQube stage has been failed in the local depl...!!! better luck next time !!!."
-                    }
-                
                 }
+                catch (Exception e) {
+                    echo "SonarQube stage has been failed in the local depl...!!! better luck next time !!!."
+                } 
             }
         }
         

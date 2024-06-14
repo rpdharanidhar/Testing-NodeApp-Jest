@@ -29,19 +29,17 @@ pipeline {
             }
         }
 
-        // stage('Install Dependencies') {
-        //     steps {
-        //         script {
-        //             // Install npm dependencies
-        //             bat 'sudo apt install npm'
-        //             bat 'sudo apt install nodejs'
-        //             bat 'npm install'
-        //             bat 'npm audit -fix'
-        //             bat 'npm audit report'
-        //             bat 'npm install --save-dev jest supertest'
-        //         }
-        //     }
-        // }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // Install npm dependencies
+                    bat 'npm install'
+                    bat 'npm audit -fix'
+                    bat 'npm audit report'
+                    bat 'npm install --save-dev jest supertest'
+                }
+            }
+        }
 
         stage('Run Unit Tests') {
             steps {

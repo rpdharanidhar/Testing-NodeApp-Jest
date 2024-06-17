@@ -87,7 +87,7 @@ pipeline {
                         }
                     } catch (Exception e) {
                         echo "SonarQube stage failed: ${e.message}"
-                        error("Stopping pipeline due to SonarQube-Analysis failure.")
+                        error("Stopping pipeline due to SonarQube Analysis failure.")
                     }
                 }
             }

@@ -139,23 +139,37 @@ pipeline {
         //     }
         // }
 
-        stage('Build Docker Image') {
+        // stage('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             docker.build('latest', '-f Dockerfile .')
+        //         }
+        //     }
+        // }
+
+        // stage('Run Docker Container') {
+        //     steps {
+        //         bat "docker-compose -f docker-compose.dev.yml up --build -d"
+        //     }
+        // }
+
+        // stage('Push the Docker Image to Hub') {
+        //     steps {
+        //         bat "docker login -u ${DOCKER_USERNAME} --password-stdin ${DOCKER_PASSWORD} && docker-compose push rpdharanidhar/testing-nodeapp-jest"
+        //     }
+        // }
+
+        stage('Build and Push Docker Image') {
             steps {
                 script {
-                    docker.build('latest', '-f Dockerfile .')
+                    withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        bat """
+                        docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD% %DOCKER_REGISTRY%
+                        docker-compose -f docker-compose.dev.yml build
+                        docker-compose -f docker-compose.dev.yml push %DOCKER_IMAGE%
+                        """
+                    }
                 }
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                bat "docker-compose -f docker-compose.dev.yml up --build -d"
-            }
-        }
-
-        stage('Push the Docker Image to Hub') {
-            steps {
-                bat "docker login -u ${DOCKER_USERNAME} --password-stdin ${DOCKER_PASSWORD} && docker-compose push rpdharanidhar/testing-nodeapp-jest"
             }
         }
 

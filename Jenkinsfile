@@ -168,7 +168,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         bat """
-                        docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD% %DOCKER_REGISTRY%
+                        docker login -u %DOCKER_USERNAME% --password-stdin %DOCKER_PASSWORD% %DOCKER_REGISTRY%
                         docker-compose -f docker-compose.dev.yml build
                         docker-compose -f docker-compose.dev.yml push %DOCKER_IMAGE%
                         """

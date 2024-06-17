@@ -170,7 +170,8 @@ pipeline {
                         bat """
                         docker login -u %DOCKER_USERNAME% --password-stdin %DOCKER_PASSWORD% %DOCKER_REGISTRY%
                         docker-compose -f docker-compose.dev.yml build
-                        docker-compose -f docker-compose.dev.yml push %DOCKER_IMAGE%
+                        docker-compose -f docker-compose.dev.yml push testing-nodeapp-jest
+                        docker push rpdharanidhar/testing-nodeapp-jest:latest
                         """
                     }
                 }

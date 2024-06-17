@@ -115,7 +115,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
-                        echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
+                        docker login -u rpdharanidhar --password-stdin dharanirp1482
                         docker-compose -f docker-compose.dev.yml build
                         docker-compose -f docker-compose.dev.yml push testing-nodeapp-jest
                         docker push rpdharanidhar/testing-nodeapp-jest:latest

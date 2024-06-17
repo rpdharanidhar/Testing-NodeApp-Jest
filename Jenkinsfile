@@ -87,6 +87,7 @@ pipeline {
                         }
                     } catch (Exception e) {
                         echo "SonarQube stage failed: ${e.message}"
+                        error("Stopping pipeline due to SonarQube-Analysis failure.")
                     }
                 }
             }
@@ -104,7 +105,7 @@ pipeline {
                         }
                     } catch (Exception e) {
                         echo "Quality Gate check failed: ${e.message}"
-                        // error("Stopping pipeline due to Quality Gate failure.")
+                        error("Stopping pipeline due to Quality Gate failure.")
                     }
                 }
             }

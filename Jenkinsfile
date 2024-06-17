@@ -9,7 +9,7 @@ pipeline {
         KUBE_NAMESPACE = "jenkinsdemo-kube"
         DOCKER_PASSWORD = credentials('docker-password')
         DOCKER_USERNAME = credentials('docker-username')
-        DOCKER_IMAGE_NAME = "rpdharanidhar/devops-task03"
+        DOCKER_IMAGE_NAME = "rpdharanidhar/testing-nodeapp-jest"
         DOCKER_HUB_REPO = "rpdharanidhar"
         DOCKER_REGISTRY = "rpdharanidhar/devops-task01"
         SCANNER_HOME = tool 'sonarqube-scanner'
@@ -92,33 +92,32 @@ pipeline {
         //     }
         // }
 
-        // stage('Quality Gate') {
-        //     steps {
-        //         script {
-        //             try {
-        //                 def scannerHome = tool 'sonarqube-scanner';
-        //                 withSonarQubeEnv('SonarQubeServer') {
-        //                     timeout(time: 1, unit: 'HOURS') {
-        //                         waitForQualityGate abortPipeline: true
-        //                     }
-        //                 }  
-        //             } catch (Exception e) {
-        //                 echo "Quality Gate check failed: ${e.message}"
-        //                 error("Stopping pipeline due to Quality Gate failure.")
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Quality Gate') {
+            steps {
+                script {
+                    try {
+                        def scannerHome = tool 'sonarqube-scanner';
+                        withSonarQubeEnv('SonarQubeServer') {
+                            timeout(time: 1, unit: 'HOURS') {
+                                waitForQualityGate abortPipeline: true
+                            }
+                        }  
+                    } catch (Exception e) {
+                        echo "Quality Gate check failed: ${e.message}"
+                        // error("Stopping pipeline due to Quality Gate failure.")
+                    }
+                }
+            }
+        }
 
         stage('Build and Push Docker Image') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
-                        docker login -u rpdharanidhar --password-stdin dharanirp1482
-                        docker-compose -f docker-compose.dev.yml build
-                        docker-compose -f docker-compose.dev.yml push testing-nodeapp-jest
-                        docker push rpdharanidhar/testing-nodeapp-jest:latest
+                        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                        docker build -t $DOCKER_IMAGE_NAME .
+                        docker push $DOCKER_IMAGE_NAME
                         """
                     }
                 }

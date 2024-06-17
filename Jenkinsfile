@@ -37,10 +37,10 @@ pipeline {
             steps {
                 script {
                     // Install npm dependencies
-                    bat 'npm install'
-                    bat 'npm audit fix'
-                    // bat 'npm audit report'
-                    bat 'npm install --save-dev jest supertest'
+                    sh 'npm install'
+                    sh 'npm audit fix'
+                    // sh 'npm audit report'
+                    sh 'npm install --save-dev jest supertest'
                 }
             }
         }
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script {
                     // Run Mocha unit tests
-                    bat 'npm run test:unit'
+                    sh 'npm run test:unit'
                 }
             }
         }
@@ -58,7 +58,7 @@ pipeline {
             steps {
                 script {
                     // Run funtional tests
-                    bat 'npm run test:functional'
+                    sh 'npm run test:functional'
                 }
             }
         }
@@ -67,7 +67,7 @@ pipeline {
             steps {
                 script {
                     // Run Mocha unit and functional tests
-                    bat 'npm run test'
+                    sh 'npm run test'
                 }
             }
         }
@@ -78,8 +78,8 @@ pipeline {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
                         withSonarQubeEnv() {
-                            // bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
-                            bat "sonar-scanner \
+                            // sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
+                            sh "sonar-scanner \
                                 -Dsonar.projectKey=Testing-NodeApp-Jest \
                                 -Dsonar.sources=. \
                                 -Dsonar.host.url=http://localhost:9000 \
@@ -112,7 +112,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        bat """
+                        sh """
                         echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
                         docker-compose -f docker-compose.dev.yml build
                         docker-compose -f docker-compose.dev.yml push testing-nodeapp-jest
@@ -127,7 +127,7 @@ pipeline {
             steps {
                 script {
                     // Run tets inside the Docker container
-                    bat 'docker build -t node-docker --target test .'
+                    sh 'docker build -t node-docker --target test .'
                 }
             }
         }

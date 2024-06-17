@@ -16,15 +16,17 @@ FROM base as build
 RUN npm prune --production
 RUN apk update && apk add curl bash && rm -rf /var/cache/apk/*
 RUN apk add --no-cache curl \
-    && curl -sfL https://gobinaries.com/tj/node-prune | sh
+    && curl -sfL https://gobinaries.com/rpdharanidhar/node-prune | sh
 RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
 RUN /usr/local/bin/node-prune
+EXPOSE 8080
+CMD ["npm", "start"]
 
 FROM gcr.io/distroless/nodejs:12 as production
 EXPOSE 3000
 COPY --from=build /app /app
 WORKDIR /app
-# CMD ["src/index.js"]
+CMD ["src/index.js"]
 
-EXPOSE 8080
-CMD ["npm", "start"]
+# EXPOSE 8080
+# CMD ["npm", "start"]

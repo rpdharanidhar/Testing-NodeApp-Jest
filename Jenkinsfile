@@ -77,7 +77,7 @@ pipeline {
             steps {
                 script {
                     try {
-                         def scannerHome = tool 'SonarScanner';
+                        def scannerHome = tool 'sonarqube-scanner';
                         withSonarQubeEnv('SonarQubeServer') {
                             sh "sonar-scanner \
                                 -Dsonar.projectKey=Testing-NodeApp-Jest \

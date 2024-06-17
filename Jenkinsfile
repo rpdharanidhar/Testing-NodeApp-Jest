@@ -55,60 +55,60 @@ pipeline {
             }
         }
 
-        // stage('Run Functional Tests') {
-        //     steps {
-        //         script {
-        //             // Run funtional tests
-        //             sh 'npm run test:functional'
-        //         }
-        //     }
-        // }
-
-        // stage('Run both Unit and Functional Tests') {
-        //     steps {
-        //         script {
-        //             // Run Mocha unit and functional tests
-        //             sh 'npm run test'
-        //         }
-        //     }
-        // }
-
-        stage('SonarQube-Analysis') {
+        stage('Run Functional Tests') {
             steps {
                 script {
-                    try {
-                        def scannerHome = tool 'sonarqube-scanner';
-                        withSonarQubeEnv('SonarQubeServer') {
-                            sh "sonar-scanner \
-                                -Dsonar.projectKey=Testing-NodeApp-Jest \
-                                -Dsonar.sources=. \
-                                -Dsonar.host.url=https://9949-129-150-40-74.ngrok-free.app \
-                                -Dsonar.token=sqp_de7665c940e5b4087a394e9e83d43c3923b484877"
-                        }
-                    } catch (Exception e) {
-                        echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
-                    }
+                    // Run funtional tests
+                    sh 'npm run test:functional'
                 }
             }
         }
 
-        stage('Quality Gate') {
+        stage('Run both Unit and Functional Tests') {
             steps {
                 script {
-                    try {
-                        def scannerHome = tool 'sonarqube-scanner';
-                        withSonarQubeEnv('SonarQubeServer') {
-                            timeout(time: 1, unit: 'HOURS') {
-                                waitForQualityGate abortPipeline: true
-                            }
-                        }  
-                    } catch (Exception e) {
-                        echo "Quality Gate check failed: ${e.message}"
-                        error("Stopping pipeline due to Quality Gate failure.")
-                    }
+                    // Run Mocha unit and functional tests
+                    sh 'npm run test'
                 }
             }
         }
+
+        // stage('SonarQube-Analysis') {
+        //     steps {
+        //         script {
+        //             try {
+        //                 def scannerHome = tool 'sonarqube-scanner';
+        //                 withSonarQubeEnv('SonarQubeServer') {
+        //                     sh "sonar-scanner \
+        //                         -Dsonar.projectKey=Testing-NodeApp-Jest \
+        //                         -Dsonar.sources=. \
+        //                         -Dsonar.host.url=https://9949-129-150-40-74.ngrok-free.app \
+        //                         -Dsonar.token=sqp_de7665c940e5b4087a394e9e83d43c3923b484877"
+        //                 }
+        //             } catch (Exception e) {
+        //                 echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
+        //             }
+        //         }
+        //     }
+        // }
+
+        // stage('Quality Gate') {
+        //     steps {
+        //         script {
+        //             try {
+        //                 def scannerHome = tool 'sonarqube-scanner';
+        //                 withSonarQubeEnv('SonarQubeServer') {
+        //                     timeout(time: 1, unit: 'HOURS') {
+        //                         waitForQualityGate abortPipeline: true
+        //                     }
+        //                 }  
+        //             } catch (Exception e) {
+        //                 echo "Quality Gate check failed: ${e.message}"
+        //                 error("Stopping pipeline due to Quality Gate failure.")
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Build and Push Docker Image') {
             steps {

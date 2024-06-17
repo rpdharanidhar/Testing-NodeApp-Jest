@@ -74,30 +74,33 @@ pipeline {
         // }
 
         stage('SonarQube-Analysis') {
-    steps {
-        script {
-            try {
-                def scannerHome = tool 'sonarqube-scanner';
-                withSonarQubeEnv('SonarQubeServer') {
-                    sh "${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=Testing-NodeApp-Jest \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://localhost:9000 \
-                        -Dsonar.login=${env.SONARQUBE_TOKEN}"
+            steps {
+                script {
+                    try {
+                        def scannerHome = tool 'sonarqube-scanner';
+                        withSonarQubeEnv('SonarQubeServer') {
+                            sh "${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.projectKey=Testing-NodeApp-Jest \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=http://localhost:9000 \
+                                -Dsonar.login=${env.SONARQUBE_TOKEN}"
+                        }
+                    } catch (Exception e) {
+                        echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
+                    }
                 }
-            } catch (Exception e) {
-                echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
             }
         }
-    }
-}
 
         stage('Quality Gate') {
             steps {
                 script {
                     try {
-                        timeout(time: 1, unit: 'HOURS') {
-                            waitForQualityGate abortPipeline: true
+                        def scannerHome = tool 'sonarqube-scanner';
+                        withSonarQubeEnv('SonarQubeServer') {
+                            timeout(time: 1, unit: 'HOURS') {
+                                waitForQualityGate abortPipeline: true
+                            }
                         }
                     } catch (Exception e) {
                         echo "Quality Gate check failed: ${e.message}"

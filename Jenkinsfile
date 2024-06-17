@@ -78,7 +78,7 @@ pipeline {
                 script {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
-                        sh "sonar-scanner \
+                        sh "sonarqube-scanner \
                                 -Dsonar.projectKey=Testing-NodeApp-Jest \
                                 -Dsonar.sources=. \
                                 -Dsonar.host.url=https://9949-129-150-40-74.ngrok-free.app \

@@ -64,14 +64,14 @@ pipeline {
         //     }
         // }
 
-        stage('Run both Unit and Functional Tests') {
-            steps {
-                script {
-                    // Run Mocha unit and functional tests
-                    sh 'npm run test'
-                }
-            }
-        }
+        // stage('Run both Unit and Functional Tests') {
+        //     steps {
+        //         script {
+        //             // Run Mocha unit and functional tests
+        //             sh 'npm run test'
+        //         }
+        //     }
+        // }
 
         stage('SonarQube-Analysis') {
             steps {

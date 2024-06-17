@@ -77,14 +77,14 @@ pipeline {
             steps {
                 script {
                     try {
-                        withSonarQubeEnv('SonarQube') {
+                        // withSonarQubeEnv('SonarQube') {
                             def scannerHome = tool 'sonarqube-scanner';
                             sh "sonar-scanner \
                                 -Dsonar.projectKey=Testing-NodeApp-Jest \
                                 -Dsonar.sources=. \
                                 -Dsonar.host.url=https://9949-129-150-40-74.ngrok-free.app \
                                 -Dsonar.token=sqp_801e41ec7a2e71963d0e800cee52e989f0b1e2ff"
-                        }
+                        // }
                     } catch (Exception e) {
                         echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
                     }

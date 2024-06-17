@@ -108,60 +108,14 @@ pipeline {
             }
         }
 
-        // // stage('SonarQube-3Analysis') {
-        // //     steps {
-        // //         script {
-        // //             try {
-        // //                 bat 'sonar-scanner -Dsonar.projectKey=Testing-NodeApp-Jest -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d'
-        // //             }
-        // //             catch (Exception e) {
-        // //                 echo "SonarQube stage has been failed in the 3nd try...!!! better luck next time !!!."
-        // //             }
-        // //         }
-        // //     }
-        // // }
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 0.1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+        }
         
-        // stage('Quality Gate') {
-        //     steps {
-        //         script {
-        //             def scannerHome = tool 'sonarqube-scanner';
-        //                 withSonarQubeEnv() {
-        //                     timeout(time: 1, unit: 'MINUTES') {
-        //                         bat "waitForQualityGate abortPipeline: true"
-        //                     }
-        //                 }
-        //         }
-        //     }
-        // }
-
-        // stage('Deploy') {
-        //     steps {
-        //         script {
-        //             // Deploy the application
-        //             bat 'npm start'
-        //         }
-        //     }
-        // }
-
-        // stage('Build Docker Image') {
-        //     steps {
-        //         script {
-        //             docker.build('latest', '-f Dockerfile .')
-        //         }
-        //     }
-        // }
-
-        // stage('Run Docker Container') {
-        //     steps {
-        //         bat "docker-compose -f docker-compose.dev.yml up --build -d"
-        //     }
-        // }
-
-        // stage('Push the Docker Image to Hub') {
-        //     steps {
-        //         bat "docker login -u ${DOCKER_USERNAME} --password-stdin ${DOCKER_PASSWORD} && docker-compose push rpdharanidhar/testing-nodeapp-jest"
-        //     }
-        // }
 
         stage('Build and Push Docker Image') {
             steps {

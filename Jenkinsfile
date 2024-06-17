@@ -22,7 +22,6 @@ pipeline {
         POSTGRES_USER = 'admin'
         POSTGRES_PASSWORD = 'polar'
         POSTGRES_DB = 'test-db'
-        PATH = "${env.JAVA_HOME}"
     }
 
     stages {

@@ -74,25 +74,23 @@ pipeline {
         // }
 
         stage('SonarQube-Analysis') {
-            steps {
-                script {
-                    try {
-                        def scannerHome = tool 'sonarqube-scanner';
-                        withSonarQubeEnv() {
-                            // sh "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
-                            sh "sonar-scanner \
-                                -Dsonar.projectKey=Testing-NodeApp-Jest \
-                                -Dsonar.sources=. \
-                                -Dsonar.host.url=http://localhost:9000 \
-                                -Dsonar.token=sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
-                        }
-                    }
-                    catch (Exception e) {
-                        echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
-                    }
+    steps {
+        script {
+            try {
+                def scannerHome = tool 'sonarqube-scanner';
+                withSonarQubeEnv('SonarQubeServer') {
+                    sh "${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=Testing-NodeApp-Jest \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.login=${env.SONARQUBE_TOKEN}"
                 }
+            } catch (Exception e) {
+                echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
             }
         }
+    }
+}
 
         stage('Quality Gate') {
             steps {

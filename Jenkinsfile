@@ -78,13 +78,11 @@ pipeline {
                 script {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
-                        withSonarQubeEnv('SonarQubeServer') {
-                            sh "sonar-scanner \
-                                    -Dsonar.projectKey=Testing-NodeApp-Jest \
-                                    -Dsonar.sources=. \
-                                    -Dsonar.host.url=https://9949-129-150-40-74.ngrok-free.app \
-                                    -Dsonar.token=sqp_6f31953e7f2520e53e01f35cab1951d7f55b5a55"
-                        }
+                        sh "sonar-scanner \
+                                -Dsonar.projectKey=Testing-NodeApp-Jest \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=https://9949-129-150-40-74.ngrok-free.app \
+                                -Dsonar.token=sqp_6f31953e7f2520e53e01f35cab1951d7f55b5a55"
                     } catch (Exception e) {
                         echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
                     }
@@ -97,10 +95,8 @@ pipeline {
                 script {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
-                        withSonarQubeEnv('SonarQubeServer') {
-                            timeout(time: 1, unit: 'HOURS') {
-                                waitForQualityGate abortPipeline: true
-                            }
+                        timeout(time: 1, unit: 'HOURS') {
+                            waitForQualityGate abortPipeline: true
                         }  
                     } catch (Exception e) {
                         echo "Quality Gate check failed: ${e.message}"

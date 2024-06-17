@@ -17,7 +17,7 @@ pipeline {
         SONAR_PASSWORD = "polar"
         SONAR_TOKEN = "sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
         SONARQUBE_URL = 'http://localhost:9000' // Update this with your SonarQube server URL
-        SONARQUBE_TOKEN = "sqp_1a4010a9ff6dd7277e28bfefa94173653a1aaf17" 
+        SONARQUBE_TOKEN = "sqp_5ab24e9babc615be451ff7d8c5bebbe42f9c15b6" 
         PSQL_HOST = 'psql-db'
         POSTGRES_USER = 'admin'
         POSTGRES_PASSWORD = 'polar'
@@ -79,11 +79,11 @@ pipeline {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
                         withSonarQubeEnv('SonarQubeServer') {
-                            sh "${scannerHome}/bin/sonar-scanner \
+                            sh "sonar-scanner \
                                 -Dsonar.projectKey=Testing-NodeApp-Jest \
                                 -Dsonar.sources=. \
-                                -Dsonar.host.url=http://localhost:9000 \
-                                -Dsonar.login=${env.SONARQUBE_TOKEN}"
+                                -Dsonar.host.url=https://9949-129-150-40-74.ngrok-free.app \
+                                -Dsonar.token=sqp_5ab24e9babc615be451ff7d8c5bebbe42f9c15b6"
                         }
                     } catch (Exception e) {
                         echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."

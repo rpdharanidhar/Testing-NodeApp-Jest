@@ -96,9 +96,12 @@ pipeline {
             steps {
                 script {
                     try {
-                        timeout(time: 1, unit: 'HOURS') {
-                            waitForQualityGate abortPipeline: true
-                        }
+                        def scannerHome = tool 'sonarqube-scanner';
+                        withSonarQubeEnv('SonarQubeServer') {
+                            timeout(time: 1, unit: 'HOURS') {
+                                waitForQualityGate abortPipeline: true
+                            }
+                        }  
                     } catch (Exception e) {
                         echo "Quality Gate check failed: ${e.message}"
                         error("Stopping pipeline due to Quality Gate failure.")

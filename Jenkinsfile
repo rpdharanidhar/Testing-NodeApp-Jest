@@ -93,7 +93,7 @@ pipeline {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
                         withSonarQubeEnv() {
-                            bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
+                            // bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
                             bat "sonar-scanner \
                                 -Dsonar.projectKey=Testing-NodeApp-Jest \
                                 -Dsonar.sources=. \
@@ -102,7 +102,7 @@ pipeline {
                         }
                     }
                     catch (Exception e) {
-                        echo "SonarQube stage has been failed in the 2nd try...!!! better luck next time !!!."
+                        echo "SonarQube stage has been failed in the try...!!! better luck next time !!!."
                     }
                 }
             }

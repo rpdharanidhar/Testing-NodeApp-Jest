@@ -40,7 +40,7 @@ pipeline {
                     sh 'sudo apt install npm -y'
                     sh 'npm install'
                     // sh 'npm audit report'
-                    sh 'npm audit fix'
+                    // sh 'npm audit fix'
                     sh 'npm install --save-dev jest supertest'
                 }
             }

@@ -17,11 +17,12 @@ pipeline {
         SONAR_PASSWORD = "polar"
         SONAR_TOKEN = "sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
         SONARQUBE_URL = 'http://localhost:9000' // Update this with your SonarQube server URL
-        SONARQUBE_TOKEN = "sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d" 
+        SONARQUBE_TOKEN = "sqp_1a4010a9ff6dd7277e28bfefa94173653a1aaf17" 
         PSQL_HOST = 'psql-db'
         POSTGRES_USER = 'admin'
         POSTGRES_PASSWORD = 'polar'
         POSTGRES_DB = 'test-db'
+        PATH = "${env.JAVA_HOME}"
     }
 
     stages {

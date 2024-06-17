@@ -108,14 +108,20 @@ pipeline {
             }
         }
 
-        stage("Quality Gate") {
+        stage('Quality Gate') {
             steps {
-              timeout(time: 0.1, unit: 'HOURS') {
-                waitForQualityGate abortPipeline: true
-              }
+                script {
+                    try {
+                        timeout(time: 1, unit: 'HOURS') {
+                            waitForQualityGate abortPipeline: true
+                        }
+                    } catch (Exception e) {
+                        echo "Quality Gate check failed: ${e.message}"
+                        error("Stopping pipeline due to Quality Gate failure.")
+                    }
+                }
             }
         }
-        
 
         stage('Build and Push Docker Image') {
             steps {
@@ -146,11 +152,7 @@ pipeline {
     post {
         always {
             script {
-                // // Archive test results
-                // junit 'test-results.xml'
-                // // Archive coverage reports
-                // cobertura 'coverage/cobertura-coverage.xml'
-                echo "always block after post completion"
+                echo "Pipeline completed."
             }
         }
         success {

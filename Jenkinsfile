@@ -38,7 +38,7 @@ pipeline {
                 script {
                     // Install npm dependencies
                     bat 'npm install'
-                    // bat 'npm audit fix'
+                    bat 'npm audit fix'
                     // bat 'npm audit report'
                     bat 'npm install --save-dev jest supertest'
                 }
@@ -57,7 +57,7 @@ pipeline {
         stage('Run Functional Tests') {
             steps {
                 script {
-                    // Run Mocha unit tests
+                    // Run funtional tests
                     bat 'npm run test:functional'
                 }
             }
@@ -66,26 +66,11 @@ pipeline {
         stage('Run both Unit and Functional Tests') {
             steps {
                 script {
-                    // Run Mocha unit tests
+                    // Run Mocha unit and functional tests
                     bat 'npm run test'
                 }
             }
         }
-
-        // stage('SonarQube-1Analysis') {
-        //     steps {
-        //         script {
-        //             try {
-        //                 def scannerHome = tool 'sonarqube-scanner';
-        //                 withSonarQubeEnv() {
-        //                     bat "${scannerHome}/bin/sonar-scanner -Dsonar.login=${env.SONAR_LOGIN} -Dsonar.password=${env.SONAR_PASSWORD}"
-        //                 }
-        //             } catch (Exception e) {
-        //                 echo "SonarQube stage has been failed...!!! better luck next time !!!."
-        //             }
-        //         }
-        //     }
-        // }
 
         stage('SonarQube-Analysis') {
             steps {

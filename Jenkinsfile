@@ -17,7 +17,7 @@ pipeline {
         SONAR_PASSWORD = "polar"
         SONAR_TOKEN = "sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
         SONARQUBE_URL = 'http://localhost:9000' // Update this with your SonarQube server URL
-        SONARQUBE_TOKEN = "sqp_801e41ec7a2e71963d0e800cee52e989f0b1e2ff" 
+        SONARQUBE_TOKEN = "sqp_039b8f7045fa0f28e93dc4a59f871d7406fa8de9" 
         PSQL_HOST = 'psql-db'
         POSTGRES_USER = 'admin'
         POSTGRES_PASSWORD = 'polar'
@@ -55,23 +55,23 @@ pipeline {
             }
         }
 
-        // stage('Run Functional Tests') {
-        //     steps {
-        //         script {
-        //             // Run funtional tests
-        //             sh 'npm run test:functional'
-        //         }
-        //     }
-        // }
+        stage('Run Functional Tests') {
+            steps {
+                script {
+                    // Run funtional tests
+                    sh 'npm run test:functional'
+                }
+            }
+        }
 
-        // stage('Run both Unit and Functional Tests') {
-        //     steps {
-        //         script {
-        //             // Run Mocha unit and functional tests
-        //             sh 'npm run test'
-        //         }
-        //     }
-        // }
+        stage('Run both Unit and Functional Tests') {
+            steps {
+                script {
+                    // Run Mocha unit and functional tests
+                    sh 'npm run test'
+                }
+            }
+        }
 
         stage('SonarQube-Analysis') {
             steps {

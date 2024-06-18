@@ -88,7 +88,7 @@ pipeline {
                     // Install Trivy
                     sh 'wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -'
                     sh 'echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list'
-                    sh 'apt-get update && apt-get install -y trivy'
+                    sh 'apt update -y && apt install trivy -y'
 
                     // Scan the Docker image
                     sh """

@@ -73,6 +73,7 @@ CMD ["npm", "run", "dev"]
 # Build stage
 FROM base as build 
 RUN npm prune --production
+RUN sudo ip link set eth0 up && sudo ip addr add 192.168.1.100/24 dev eth0 && sudo ip route add default via 192.168.1.1
 RUN ifconfig
 RUN node index.js
 RUN apk update && apk add --no-cache curl bash \

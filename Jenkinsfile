@@ -81,7 +81,8 @@ pipeline {
                                 -Dsonar.projectKey=Testing-NodeApp-Jest \
                                 -Dsonar.sources=. \
                                 -Dsonar.host.url=https://4ea9-129-150-40-74.ngrok-free.app/ \
-                                -Dsonar.login=${env.SONAR_TOKEN}"
+                                -Dsonar.login=${SONAR_LOGIN} \
+                                -Dsonar.password=${SONAR_PASSWORD}
                         }
                     } catch (Exception e) {
                         echo "SonarQube stage failed: ${e.message}"

@@ -74,8 +74,8 @@ CMD ["npm", "run", "dev"]
 FROM base as build 
 RUN npm prune --production
 RUN node index.js
-RUN apk update && apk add --no-cache curl bash \
-    && rm -rf /var/cache/apk/*
+# RUN apk update && apk add --no-cache curl bash \
+#     && rm -rf /var/cache/apk/*
 RUN curl -sfL https://gobinaries.com/tj/node-prune | sh
 RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
 RUN /usr/local/bin/node-prune

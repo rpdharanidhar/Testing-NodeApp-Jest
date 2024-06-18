@@ -24,6 +24,15 @@ pipeline {
             }
         }
 
+        stage('print the commit id') {
+            steps {
+                script {
+                    // Print the commit ID
+                    echo "Commit ID: ${env.GIT_COMMIT}"
+                }
+            }
+        }
+
         stage('Install Dependencies for npm') {
             steps {
                 script {

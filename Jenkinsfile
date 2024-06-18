@@ -4,6 +4,7 @@ pipeline {
     environment {
 
         DOCKER_IMAGE_NAME = "rpdharanidhar/testing-nodeapp-jest"
+        BRANCH_NAME = "dev"
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
         SONAR_HOST_URL = 'https://2afb-129-150-40-74.ngrok-free.app/'
@@ -117,7 +118,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
                             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                            sudo docker build -t ${DOCKER_IMAGE_NAME}:${TAG} .
+                            sudo docker build --build-arg BRANCH_NAME=$BRANCH_NAME -t ${DOCKER_IMAGE_NAME}:${TAG} .
                             sudo docker push ${DOCKER_IMAGE_NAME}
                         """
                     }

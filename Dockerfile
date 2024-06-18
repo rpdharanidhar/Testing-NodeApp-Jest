@@ -49,6 +49,5 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz
 RUN apt-get update && apt-get install -y musl
 
-
 # Set up entrypoint
 ENTRYPOINT ["sourceanalyzer"]

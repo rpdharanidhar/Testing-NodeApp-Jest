@@ -1,36 +1,36 @@
-# syntax=docker/dockerfile:1
-FROM node:12-alpine as base
+# # syntax=docker/dockerfile:1
+# FROM node:12-alpine as base
 
-WORKDIR /app
-COPY package* ./
-RUN npm install
-COPY . .
+# WORKDIR /app
+# COPY package* ./
+# RUN npm install
+# COPY . .
 
-FROM base as test 
-RUN npm run test
+# FROM base as test 
+# RUN npm run test
 
-FROM base as development 
-CMD [ "npm", "run", "dev"]
+# FROM base as development 
+# CMD [ "npm", "run", "dev"]
 
-FROM base as build 
-RUN npm prune --production
-RUN index.js
-RUN apk update && apk add curl bash && rm -rf /var/cache/apk/*
-RUN apk add --no-cache curl \
-    && curl -sfL https://gobinaries.com/tj/node-prune | sh
-RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
-RUN /usr/local/bin/node-prune
-EXPOSE 8080
-CMD ["npm", "start"]
-
-FROM gcr.io/distroless/nodejs:12 as production
-EXPOSE 3000
-COPY --from=build /app /app
-WORKDIR /app
-CMD ["src/index.js"]
-
+# FROM base as build 
+# RUN npm prune --production
+# RUN index.js
+# RUN apk update && apk add curl bash && rm -rf /var/cache/apk/*
+# RUN apk add --no-cache curl \
+#     && curl -sfL https://gobinaries.com/tj/node-prune | sh
+# RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
+# RUN /usr/local/bin/node-prune
 # EXPOSE 8080
 # CMD ["npm", "start"]
+
+# FROM gcr.io/distroless/nodejs:12 as production
+# EXPOSE 3000
+# COPY --from=build /app /app
+# WORKDIR /app
+# CMD ["src/index.js"]
+
+# # EXPOSE 8080
+# # CMD ["npm", "start"]
 
 # FROM openjdk:11-jdk-slim
 
@@ -51,3 +51,59 @@ CMD ["src/index.js"]
 
 # # Set up entrypoint
 # ENTRYPOINT ["sourceanalyzer"]
+
+
+# syntax=docker/dockerfile:1
+# Base image with Node.js
+FROM node:12-alpine as base
+
+WORKDIR /app
+COPY package* ./
+RUN npm install
+COPY . .
+
+# Stage for running tests
+FROM base as test 
+RUN npm run test
+
+# Development stage
+FROM base as development 
+CMD ["npm", "run", "dev"]
+
+# Build stage
+FROM base as build 
+RUN npm prune --production
+RUN node index.js
+RUN apk update && apk add --no-cache curl bash \
+    && rm -rf /var/cache/apk/*
+RUN curl -sfL https://gobinaries.com/tj/node-prune | sh
+RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
+RUN /usr/local/bin/node-prune
+EXPOSE 8080
+CMD ["npm", "start"]
+
+# Production stage
+FROM gcr.io/distroless/nodejs:12 as production
+EXPOSE 3000
+COPY --from=build /app /app
+WORKDIR /app
+CMD ["src/index.js"]
+
+# Fortify SCA setup
+FROM openjdk:11-jdk-slim as fortify
+
+# Set environment variables
+ENV FORTIFY_HOME=/opt/fortify
+ENV PATH=$FORTIFY_HOME/bin:$PATH
+
+# Copy the Fortify SCA installer into the image
+COPY Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz /tmp/
+
+# Install dependencies and Fortify SCA
+RUN apt-get update && apt-get install -y tar musl && \
+    mkdir -p $FORTIFY_HOME && \
+    tar -xzvf /tmp/Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz -C $FORTIFY_HOME --strip-components=1 && \
+    rm -rf /var/lib/apt/lists/* /tmp/Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz
+
+# Set up entrypoint for Fortify SCA
+ENTRYPOINT ["sourceanalyzer"]

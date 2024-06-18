@@ -16,6 +16,7 @@ There are two types of tests, the unit tests and the functional tests. These can
 
     ```console
     $ npm run test:unit
+    $ npm run test:unit$ npm run test:unit
     ```
 
 -   Run functional tests only

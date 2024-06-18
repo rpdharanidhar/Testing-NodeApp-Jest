@@ -108,8 +108,8 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
                             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                            // sudo docker build -t $DOCKER_IMAGE_NAME .
-                            docker-compose -f docker-compose.dev.yml up --build
+                            sudo docker build -t $DOCKER_IMAGE_NAME
+                            // docker-compose -f docker-compose.dev.yml up --build
                             docker push $DOCKER_IMAGE_NAME
                         """
                     }

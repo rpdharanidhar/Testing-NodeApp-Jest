@@ -14,8 +14,8 @@ CMD [ "npm", "run", "dev"]
 
 FROM base as build 
 RUN npm prune --production
-RUN apk update && apk add curl bash && rm -rf /var/cache/apk/*
-RUN apk add --no-cache curl \
+RUN apt update && apt add curl bash && rm -rf /var/cache/apk/*
+RUN apt add --no-cache curl \
     && curl -sfL https://gobinaries.com/tj/node-prune | sh
 RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
 RUN /usr/local/bin/node-prune

@@ -180,11 +180,11 @@ pipeline {
 
                     // Run Clair Scanner
                     sh """
-                    docker run --rm --net=host \
-                        -v /var/run/docker.sock:/var/run/docker.sock \
-                        -v $(pwd):/tmp arminc/clair-scanner:${CLAIR_SCANNER_VERSION} \
-                        --clair=${CLAIR_URL} \
-                        --ip=localhost ${DOCKER_IMAGE_NAME}:${TAG}
+                        docker run --rm --net=host \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
+                            -v $(pwd):/tmp arminc/clair-scanner:${CLAIR_SCANNER_VERSION} \
+                            --clair=${CLAIR_URL} \
+                            --ip=localhost ${DOCKER_IMAGE_NAME}:${TAG}
                     """
                 }
             }

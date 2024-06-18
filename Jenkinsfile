@@ -39,8 +39,6 @@ pipeline {
                     // Install npm dependencies
                     sh 'sudo apt install npm -y'
                     sh 'npm install'
-                    sh 'npm audit report'
-                    sh 'npm audit fix'
                     sh 'npm install --save-dev jest supertest'
                 }
             }
@@ -82,7 +80,7 @@ pipeline {
                             sh "${scannerHome}/bin/sonar-scanner \
                                 -Dsonar.projectKey=Testing-NodeApp-Jest \
                                 -Dsonar.sources=. \
-                                -Dsonar.host.url=https://9949-129-150-40-74.ngrok-free.app \
+                                -Dsonar.host.url=https://4ea9-129-150-40-74.ngrok-free.app/ \
                                 -Dsonar.login=${env.SONAR_TOKEN}"
                         }
                     } catch (Exception e) {

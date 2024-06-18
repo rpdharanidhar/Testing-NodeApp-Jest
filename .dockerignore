@@ -1,0 +1,12 @@
+node_modules
+*.log
+*.gz
+todos
+coverage
+Dockerfile
+.dockerignore
+docker-compose*
+docs
+.git
+.gitignore
+.env.sample

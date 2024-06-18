@@ -6,7 +6,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "rpdharanidhar/testing-nodeapp-jest"
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
-        SONAR_HOST_URL = 'https://4ea9-129-150-40-74.ngrok-free.app/'
+        SONAR_HOST_URL = 'https://0e5b-129-150-40-74.ngrok-free.app/'
         FORTIFY_IMAGE = 'fortify-sca:latest'
         FORTIFY_PROJECT_NAME = 'test-prj-03'
         FORTIFY_BUILD_ID = 'build-${env.BUILD_NUMBER}'
@@ -86,9 +86,9 @@ pipeline {
             steps {
                 script {
                     // Install Trivy
-                    sh 'wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -'
+                    sh 'wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-key add -'
                     sh 'echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list'
-                    sh 'sudo apt-get update && sudo apt-get install -y trivy'
+                    sh 'apt-get update && apt-get install -y trivy'
 
                     // Scan the Docker image
                     sh """

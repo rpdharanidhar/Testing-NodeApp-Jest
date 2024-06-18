@@ -122,11 +122,6 @@ pipeline {
             steps {
                 script {
                     // Run tets inside the Docker container
-<<<<<<< HEAD
-                    // Run tets inside the Docker container
-                    // Run tets inside the Docker container
-=======
->>>>>>> origin/main
                     sh 'docker build -t node-docker --target test .'
                 }
             }

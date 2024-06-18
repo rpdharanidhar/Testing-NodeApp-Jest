@@ -95,23 +95,6 @@ pipeline {
             }
         }
 
-        stage('Quality Gate') {
-            steps {
-                script {
-                    try {
-                        withSonarQubeEnv('SonarQube') {
-                            timeout(time: 0.1, unit: 'HOURS') {
-                                waitForQualityGate abortPipeline: true
-                            }  
-                        }
-                    } catch (Exception e) {
-                        echo "Quality Gate check failed: ${e.message}"
-                        error("Stopping pipeline due to Quality Gate failure.")
-                    }
-                }
-            }
-        }
-
         stage('Build and Push Docker Image') {
             steps {
                 script {

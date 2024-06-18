@@ -27,6 +27,7 @@ pipeline {
                     // Install npm dependencies
                     sh 'sudo apt install npm -y'
                     sh 'npm install'
+                    sh 'npm audit fix'
                     sh 'npm install --save-dev jest supertest'
                 }
             }
@@ -78,6 +79,22 @@ pipeline {
                         echo "SonarQube stage failed: ${e.message}"
                         error("Stopping pipeline due to SonarQube Analysis failure.")
                     }
+                }
+            }
+        }
+
+        stage('Scan') {
+            steps {
+                script {
+                    // Install Trivy
+                    sh 'wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -'
+                    sh 'echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list'
+                    sh 'sudo apt-get update && sudo apt-get install -y trivy'
+
+                    // Scan the Docker image
+                    sh """
+                        trivy image $DOCKER_IMAGE_NAME
+                    """
                 }
             }
         }
@@ -138,16 +155,6 @@ pipeline {
                     fortifyclient -url https://your-ssc-server/ssc -authtoken your_auth_token \
                     -uploadFPR -file ${env.FORTIFY_PROJECT_NAME}.fpr -project "${env.FORTIFY_PROJECT_NAME}" -version "${env.BUILD_ID}"
                     """
-                }
-            }
-        }
-
-        stage('Scan Docker Image') {
-            steps {
-                script {
-                    sh """
-                        trivy image $DOCKER_IMAGE_NAME
-                        """
                 }
             }
         }

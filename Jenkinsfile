@@ -7,6 +7,9 @@ pipeline {
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
         SONAR_HOST_URL = 'https://4ea9-129-150-40-74.ngrok-free.app/'
+        FORTIFY_IMAGE = 'fortify-sca:latest'
+        FORTIFY_PROJECT_NAME = 'test-prj-03'
+        FORTIFY_BUILD_ID = 'build-${env.BUILD_NUMBER}'
     }
 
     stages {
@@ -98,6 +101,53 @@ pipeline {
                 script {
                     // Run tets inside the Docker container
                     sh 'docker build -t node-docker --target test .'
+                }
+            }
+        }
+
+        stage('Fortify SCA - Translate') {
+            steps {
+                script {
+                    docker.image(env.FORTIFY_IMAGE).inside {
+                        sh """
+                        sourceanalyzer -b ${env.FORTIFY_BUILD_ID} -clean
+                        sourceanalyzer -b ${env.FORTIFY_BUILD_ID} <your_project_source_files>
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Fortify SCA - Scan') {
+            steps {
+                script {
+                    docker.image(env.FORTIFY_IMAGE).inside {
+                        sh """
+                        sourceanalyzer -b ${env.FORTIFY_BUILD_ID} -scan -f ${env.FORTIFY_PROJECT_NAME}.fpr
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Publish Results') {
+            steps {
+                script {
+                    // Assuming Fortify SSC (Software Security Center) is set up to receive the results
+                    sh """
+                    fortifyclient -url https://your-ssc-server/ssc -authtoken your_auth_token \
+                    -uploadFPR -file ${env.FORTIFY_PROJECT_NAME}.fpr -project "${env.FORTIFY_PROJECT_NAME}" -version "${env.BUILD_ID}"
+                    """
+                }
+            }
+        }
+
+        stage('Scan Docker Image') {
+            steps {
+                script {
+                    sh """
+                        trivy image $DOCKER_IMAGE_NAME
+                        """
                 }
             }
         }

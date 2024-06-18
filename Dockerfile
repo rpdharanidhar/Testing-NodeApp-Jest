@@ -30,3 +30,24 @@ CMD ["src/index.js"]
 
 # EXPOSE 8080
 # CMD ["npm", "start"]
+
+FROM openjdk:11-jdk-slim
+
+# Set environment variables
+ENV FORTIFY_HOME=/opt/fortify
+ENV PATH=$FORTIFY_HOME/bin:$PATH
+
+# Copy the Fortify SCA installer into the image
+COPY Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz /tmp/
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y tar && \
+    mkdir -p $FORTIFY_HOME && \
+    tar -xzvf /tmp/Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz -C $FORTIFY_HOME --strip-components=1 && \
+    rm -rf /var/lib/apt/lists/* /tmp/Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz
+RUN apt-get update && apt-get install -y musl
+
+
+# Set up entrypoint
+ENTRYPOINT ["sourceanalyzer"]

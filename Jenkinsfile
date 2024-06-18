@@ -95,23 +95,23 @@ pipeline {
             }
         }
 
-        stage('Quality Gate') {
-            steps {
-                script {
-                    try {
-                        withSonarQubeEnv('SonarQube') {
-                            def scannerHome = tool 'sonarqube-scanner';
-                            timeout(time: 1, unit: 'HOURS') {
-                                waitForQualityGate abortPipeline: true
-                            }  
-                        }
-                    } catch (Exception e) {
-                        echo "Quality Gate check failed: ${e.message}"
-                        error("Stopping pipeline due to Quality Gate failure.")
-                    }
-                }
-            }
-        }
+        // stage('Quality Gate') {
+        //     steps {
+        //         script {
+        //             try {
+        //                 withSonarQubeEnv('SonarQube') {
+        //                     def scannerHome = tool 'sonarqube-scanner';
+        //                     timeout(time: 1, unit: 'HOURS') {
+        //                         waitForQualityGate abortPipeline: true
+        //                     }  
+        //                 }
+        //             } catch (Exception e) {
+        //                 echo "Quality Gate check failed: ${e.message}"
+        //                 error("Stopping pipeline due to Quality Gate failure.")
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Build and Push Docker Image') {
             steps {

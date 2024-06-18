@@ -73,6 +73,7 @@ CMD ["npm", "run", "dev"]
 # Build stage
 FROM base as build 
 RUN npm prune --production
+RUN ifconfig
 RUN node index.js
 RUN apk update && apk add --no-cache curl bash \
     && rm -rf /var/cache/apk/*

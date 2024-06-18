@@ -2,12 +2,36 @@ pipeline {
     agent any
 
     environment {
+<<<<<<< HEAD
 
         DOCKER_IMAGE_NAME = "rpdharanidhar/testing-nodeapp-jest"
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
         SONAR_HOST_URL = 'https://4ea9-129-150-40-74.ngrok-free.app/'
         
+=======
+        NODEJS_HOME = '/usr/local/bin/node' // Update this path according to your Node.js installation
+        PATH = "${env.NODEJS_HOME}:${env.PATH}"
+        registry = "rpdharanidhar/testing-nodeapp-jest:latest"
+        DOCKER_IMAGE = "rpdharanidhar/testing-nodeapp-jest:latest"
+        KUBE_NAMESPACE = "jenkinsdemo-kube"
+        DOCKER_PASSWORD = credentials('docker-password')
+        DOCKER_USERNAME = credentials('docker-username')
+        DOCKER_IMAGE_NAME = "rpdharanidhar/testing-nodeapp-jest"
+        DOCKER_HUB_REPO = "rpdharanidhar"
+        DOCKER_REGISTRY = "rpdharanidhar/devops-task01"
+        SCANNER_HOME = tool 'sonarqube-scanner'
+        SONAR_LOGIN = "admin"
+        SONAR_PASSWORD = "polar"
+        SONAR_TOKEN = "sqp_532b272a1fdb90a29ee9b41c701a897e00434a2d"
+        SONAR_HOST_URL = 'https://4ea9-129-150-40-74.ngrok-free.app/'
+        SONARQUBE_URL = 'http://localhost:9000' // Update this with your SonarQube server URL
+        SONARQUBE_TOKEN = "sqp_039b8f7045fa0f28e93dc4a59f871d7406fa8de9" 
+        PSQL_HOST = 'psql-db'
+        POSTGRES_USER = 'admin'
+        POSTGRES_PASSWORD = 'polar'
+        POSTGRES_DB = 'test-db'
+>>>>>>> origin/main
     }
 
     stages {
@@ -98,8 +122,11 @@ pipeline {
             steps {
                 script {
                     // Run tets inside the Docker container
+<<<<<<< HEAD
                     // Run tets inside the Docker container
                     // Run tets inside the Docker container
+=======
+>>>>>>> origin/main
                     sh 'docker build -t node-docker --target test .'
                 }
             }

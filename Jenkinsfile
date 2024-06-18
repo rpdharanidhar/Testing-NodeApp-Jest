@@ -100,7 +100,7 @@ pipeline {
                 script {
                     try {
                         withSonarQubeEnv('SonarQube') {
-                            timeout(time: 1, unit: 'HOURS') {
+                            timeout(time: 0.1, unit: 'HOURS') {
                                 waitForQualityGate abortPipeline: true
                             }  
                         }

@@ -69,4 +69,4 @@ https://github.com/MicrosoftDocs/node-essentials
 
 
 
-this is for the trigger purpose
+this is for the trigger purposes

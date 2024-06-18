@@ -16,10 +16,8 @@ There are two types of tests, the unit tests and the functional tests. These can
 
     ```console
     $ npm run test:unit
-<<<<<<< HEAD
-=======
     $ npm run test:unit$ npm run test:unit
->>>>>>> origin/main
+
     ```
 
 -   Run functional tests only
@@ -68,3 +66,7 @@ There are two environments in Docker Compose. These can be executed as follows.
 
 https://docs.microsoft.com/en-us/learn/modules/deploy-nodejs/
 https://github.com/MicrosoftDocs/node-essentials
+
+
+
+this is for the trigger purpose

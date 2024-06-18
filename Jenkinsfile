@@ -108,9 +108,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
                             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                            // docker buildx build --platform linux/amd64,linux/arm64 -t rpdharanidhar/testing-nodeapp-jest .
                             sudo docker buildx build -t rpdharanidhar/testing-nodeapp-jest .
-                            // docker-compose -f docker-compose.dev.yml up --build
                             sudo docker push $DOCKER_IMAGE_NAME
                         """
                     }

@@ -6,7 +6,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "rpdharanidhar/testing-nodeapp-jest"
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
-        SONAR_HOST_URL = 'https://0e5b-129-150-40-74.ngrok-free.app/'
+        SONAR_HOST_URL = 'https://2afb-129-150-40-74.ngrok-free.app/'
         FORTIFY_IMAGE = 'fortify-sca:latest'
         FORTIFY_PROJECT_NAME = 'test-prj-03'
         FORTIFY_BUILD_ID = 'build-${env.BUILD_NUMBER}'
@@ -91,7 +91,7 @@ pipeline {
                     sh 'sudo apt-get update -y'
                     sh 'sudo apt install trivy -y'
 
-                    // Scan the Docker image
+                    // Scan the Docker image built / from the docker registry
                     sh """
                         trivy image $DOCKER_IMAGE_NAME
                     """
@@ -128,7 +128,7 @@ pipeline {
                     docker.image(env.FORTIFY_IMAGE).inside {
                         sh """
                         sourceanalyzer -b ${env.FORTIFY_BUILD_ID} -clean
-                        sourceanalyzer -b ${env.FORTIFY_BUILD_ID} <your_project_source_files>
+                        sourceanalyzer -b ${env.FORTIFY_BUILD_ID} Dockerfile
                         """
                     }
                 }

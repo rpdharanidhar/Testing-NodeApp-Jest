@@ -126,13 +126,13 @@ pipeline {
             steps {
                 script {
                     // Pull Clair Scanner Docker image
-                    docker.image("arminc/clair-scanner:${CLAIR_SCANNER_VERSION}").pull()
+                    docker.image("quay.io/coreos/clair-scanner:${CLAIR_SCANNER_VERSION}").pull()
 
                     // Run Clair Scanner
                     sh """
                     docker run --rm --net=host \
                         -v /var/run/docker.sock:/var/run/docker.sock \
-                        -v pwd:/tmp arminc/clair-scanner:${CLAIR_SCANNER_VERSION} \
+                        -v pwd:/tmp quay.io/coreos/clair-scanner:${CLAIR_SCANNER_VERSION} \
                         --clair=${CLAIR_URL} \
                         --ip=localhost ${IMAGE_NAME}:${TAG}
                     """

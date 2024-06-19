@@ -148,6 +148,7 @@ pipeline {
                         sh """
                             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
                             sudo docker build --build-arg BRANCH_NAME=${BRANCH_NAME} -t ${DOCKER_IMAGE_NAME}:${TAG} .
+                            docker-compose -f docker-compose.yml up -d
                             sudo docker push ${DOCKER_IMAGE_NAME}
                         """
                     }

@@ -7,7 +7,7 @@ pipeline {
         BRANCH_NAME = "dev"
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
-        SONAR_HOST_URL = 'https://4a1c-129-150-40-74.ngrok-free.app/'
+        SONAR_HOST_URL = 'https://6515-129-150-40-74.ngrok-free.app/'
         FORTIFY_IMAGE = 'evernow/fortify-sca'
         FORTIFY_PROJECT_NAME = 'test-prj-03'
         FORTIFY_BUILD_ID = 'build-${env.BUILD_NUMBER}'

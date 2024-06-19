@@ -136,7 +136,9 @@ pipeline {
                     sh 'docker images'
 
                     // Step 3: Run Clair Scanner
-                    sh 'sudo docker run --rm --net=host -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/tmp objectiflibre/clair-scanner:latest --clair=http://localhost:6060 --ip=localhost rpdharanidhar/testing-nodeapp-jest:latest'
+                    // sh 'sudo docker run --rm --net=host -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/tmp objectiflibre/clair-scanner:latest --clair=http://localhost:6060 --ip=localhost rpdharanidhar/testing-nodeapp-jest:latest'
+                    sh 'mkdir -p /tmp/jenkins-workspace'
+                    sh 'docker run --rm --net=host -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/jenkins-workspace:/tmp objectiflibre/clair-scanner:latest --clair=http://localhost:6060 --ip=localhost rpdharanidhar/testing-nodeapp-jest:latest'
                 }
             }
         }

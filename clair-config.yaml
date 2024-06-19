@@ -1,0 +1,13 @@
+clair:
+  database:
+    type: pgsql
+    options:
+      # PostgreSQL connection string
+      source: host=postgres user=clair password=clair dbname=clair sslmode=disable
+  api:
+    # API server
+    addr: :6060
+    healthAddr: :6061
+    timeout: 900s
+  updater:
+    interval: 12h

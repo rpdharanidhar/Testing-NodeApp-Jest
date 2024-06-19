@@ -118,7 +118,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh """
                             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                            sudo docker build --build-arg BRANCH_NAME=$BRANCH_NAME -t ${DOCKER_IMAGE_NAME}:${TAG} .
+                            sudo docker build --build-arg BRANCH_NAME=${BRANCH_NAME} -t ${DOCKER_IMAGE_NAME}:${TAG} .
                             sudo docker push ${DOCKER_IMAGE_NAME}
                         """
                     }

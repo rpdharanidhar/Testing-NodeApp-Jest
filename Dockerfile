@@ -92,7 +92,7 @@ WORKDIR /app
 CMD ["src/index.js"]
 
 # Fortify SCA setup
-FROM openjdk:11-jdk-slim as fortify
+FROM openjdk:11-jdk-slim AS fortify
 
 # Set environment variables
 ENV FORTIFY_HOME=/opt/fortify
@@ -103,8 +103,8 @@ COPY Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz /tmp/
 
 # Install dependencies and Fortify SCA
 RUN apt-get update && apt-get install -y tar musl && \
-    mkdir -p $FORTIFY_HOME && \
-    tar -xzvf /tmp/Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz -C $FORTIFY_HOME --strip-components=1 && \
+    mkdir -p $"FORTIFY_HOME" && \
+    tar -xzvf /tmp/Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz -C $"FORTIFY_HOME" --strip-components=1 && \
     rm -rf /var/lib/apt/lists/* /tmp/Fortify_SCA_and_Apps_<version>_linux_x64.tar.gz
 
 # Set up entrypoint for Fortify SCA

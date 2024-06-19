@@ -141,7 +141,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
 
   clair:
-    image: quay.io/coreos/clair:latest
+    image: jasonumiker/clair:latest
     container_name: clair
     ports:
       - "6060:6060"

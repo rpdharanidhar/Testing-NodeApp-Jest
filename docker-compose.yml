@@ -120,10 +120,10 @@ services:
     env_file:
       - ./.env
     environment:
-      PSQL_HOST: ${PSQL_HOST}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      PSQL_HOST: my-postgres-host
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: polar
+      POSTGRES_DB: test
       NODE_ENV: "dev"
     depends_on:
       - psql

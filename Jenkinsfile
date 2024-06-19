@@ -134,7 +134,7 @@ pipeline {
                         -v /var/run/docker.sock:/var/run/docker.sock \
                         -v pwd:/tmp objectiflibre/clair-scanner:${CLAIR_SCANNER_VERSION} \
                         --clair=${CLAIR_URL} \
-                        --ip=localhost ${IMAGE_NAME}:${TAG}
+                        --ip=localhost ${DOCKER_IMAGE_NAME}:${TAG}
                     """
                 }
             }

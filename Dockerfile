@@ -281,37 +281,71 @@
 # ENTRYPOINT ["sourceanalyzer"]
 
 # Use a compatible npm version
-FROM node:12-buster-slim as base
+
+
+
+# ==========================================================
+
+# FROM node:12-buster-slim as base
+
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm install
+# COPY . .
+
+# # Stage for running tests
+# FROM base as test 
+# RUN npm run test
+
+# # Development stage
+# FROM base as development 
+# CMD ["npm", "run", "dev"]
+
+# # Build stage
+# FROM base as build 
+# RUN npm prune --production
+# RUN node index.js
+# RUN apt-get update && apt-get install -y curl bash \
+#     && rm -rf /var/lib/apt/lists/*
+# RUN curl -sfL https://gobinaries.com/tj/node-prune | sh
+# RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
+# RUN /usr/local/bin/node-prune
+# EXPOSE 8080
+# CMD ["npm", "start"]
+
+# # Production stage
+# FROM gcr.io/distroless/nodejs:12 as production
+# EXPOSE 3000
+# COPY --from=build /app /app
+# WORKDIR /app
+# CMD ["src/index.js"]
+
+# syntax=docker/dockerfile:1
+FROM node:12-alpine as base
 
 WORKDIR /app
-COPY package*.json ./
+COPY package* ./
 RUN npm install
 COPY . .
 
-# Stage for running tests
-FROM base as test 
+FROM base as test
 RUN npm run test
 
-# Development stage
-FROM base as development 
-CMD ["npm", "run", "dev"]
+FROM base as development
+CMD [ "npm", "run", "dev"]
 
-# Build stage
-FROM base as build 
+FROM base as build
 RUN npm prune --production
-RUN node index.js
-RUN apt-get update && apt-get install -y curl bash \
-    && rm -rf /var/lib/apt/lists/*
-RUN curl -sfL https://gobinaries.com/tj/node-prune | sh
+RUN apk update && apk add curl bash && rm -rf /var/cache/apk/*
+RUN apk add --no-cache curl \
+    && curl -sfL https://gobinaries.com/tj/node-prune | sh
 RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
 RUN /usr/local/bin/node-prune
-EXPOSE 8080
+EXPOSE 9090
 CMD ["npm", "start"]
 
-# Production stage
 FROM gcr.io/distroless/nodejs:12 as production
 EXPOSE 3000
 COPY --from=build /app /app
 WORKDIR /app
 CMD ["src/index.js"]
-

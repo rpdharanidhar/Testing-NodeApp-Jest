@@ -129,13 +129,13 @@ pipeline {
                     docker.image("objectiflibre/clair-scanner:${CLAIR_SCANNER_VERSION}").pull()
 
                     // Run Clair Scanner
-                    # Step 1: Build the Docker image
+                    // Step 1: Build the Docker image
                     sh 'docker build -t rpdharanidhar/testing-nodeapp-jest:latest .'
 
-                    # Step 2: Verify the image exists
+                    // Step 2: Verify the image exists
                     sh 'docker images'
 
-                    # Step 3: Run Clair Scanner
+                    // Step 3: Run Clair Scanner
                     sh 'docker run --rm --net=host -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/tmp objectiflibre/clair-scanner:latest --clair=http://localhost:6060 --ip=localhost rpdharanidhar/testing-nodeapp-jest:latest'
                 }
             }

@@ -117,7 +117,7 @@ pipeline {
                 script {
                     // Install dependencies
                     sh 'sudo apt install docker-compose -y'
-                    sh 'sudo snap install docker'
+                    sh 'sudo apt install docker'
                 }
             }
         }

@@ -95,7 +95,7 @@ pipeline {
             }
         }
 
-        stage('Scan') {
+        stage('Scan by Trivy for the Docker image') {
             steps {
                 script {
                     // Install Trivy

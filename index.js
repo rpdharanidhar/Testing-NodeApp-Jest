@@ -1,7 +1,7 @@
 const https = require('https');
 
 const options = {
-  hostname: 'ip-check.onrender.com',
+  hostname: 'polar-ip-check.onrender.com',
   port: 443,
   path: '/',
   method: 'GET'

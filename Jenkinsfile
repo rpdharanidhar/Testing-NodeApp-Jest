@@ -130,7 +130,7 @@ pipeline {
 
                     // Run Clair Scanner
                     // Step 1: Build the Docker image
-                    sh 'docker build -t rpdharanidhar/testing-nodeapp-jest:latest .'
+                    sh 'sudo docker-compose -f docker-compose.yaml up -d'
 
                     // Step 2: Verify the image exists
                     sh 'docker images'

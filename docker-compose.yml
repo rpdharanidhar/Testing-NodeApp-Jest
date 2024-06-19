@@ -77,7 +77,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
 
   clair:
-    image: objectiflibre/clair:latest
+    image: jasonumiker/clair:latest
     ports:
       - "6060:6060"
       - "6061:6061"

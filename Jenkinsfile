@@ -126,7 +126,7 @@ pipeline {
             steps {
                 script {
                     // Pull Clair Scanner Docker image
-                    docker.image("objectiflibre/clair-scanner:${CLAIR_SCANNER_VERSION}").pull()
+                    docker.image("debi2019/clair-scanner:${CLAIR_SCANNER_VERSION}").pull()
 
                     // Run Clair Scanner
                     // Step 1: Build the Docker image

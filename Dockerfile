@@ -136,7 +136,7 @@ RUN apt-get update && apt-get install -y curl bash && rm -rf /var/lib/apt/lists/
 RUN curl -sfL https://gobinaries.com/tj/node-prune | sh
 RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
 RUN /usr/local/bin/node-prune
-EXPOSE 8080
+EXPOSE 8090
 CMD ["npm", "start"]
 
 # Production stage

@@ -112,6 +112,34 @@ pipeline {
             }
         }
 
+        stage('Install Dependencies for clair') {
+            steps {
+                script {
+                    // Install dependencies
+                    sh 'sudo apt install docker-compose -y'
+                    sh 'sudo snap install docker'
+                }
+            }
+        }
+
+        stage('Scan with Clair') {
+            steps {
+                script {
+                    // Pull Clair Scanner Docker image
+                    docker.image("arminc/clair-scanner:${CLAIR_SCANNER_VERSION}").pull()
+
+                    // Run Clair Scanner
+                    sh """
+                    docker run --rm --net=host \
+                        -v /var/run/docker.sock:/var/run/docker.sock \
+                        -v pwd:/tmp arminc/clair-scanner:${CLAIR_SCANNER_VERSION} \
+                        --clair=${CLAIR_URL} \
+                        --ip=localhost ${IMAGE_NAME}:${TAG}
+                    """
+                }
+            }
+        }
+
         stage('Build and Push Docker Image') {
             steps {
                 script {
@@ -172,33 +200,7 @@ pipeline {
         //     }
         // }
 
-        stage('Install Dependencies for clair') {
-            steps {
-                script {
-                    // Install dependencies
-                    sh 'sudo apt install docker-compose -y'
-                    sh 'sudo snap install docker'
-                }
-            }
-        }
-
-        stage('Scan with Clair') {
-            steps {
-                script {
-                    // Pull Clair Scanner Docker image
-                    docker.image("arminc/clair-scanner:${CLAIR_SCANNER_VERSION}").pull()
-
-                    // Run Clair Scanner
-                    sh """
-                    docker run --rm --net=host \
-                        -v /var/run/docker.sock:/var/run/docker.sock \
-                        -v pwd:/tmp arminc/clair-scanner:${CLAIR_SCANNER_VERSION} \
-                        --clair=${CLAIR_URL} \
-                        --ip=localhost ${IMAGE_NAME}:${TAG}
-                    """
-                }
-            }
-        }
+        
     }
 
 

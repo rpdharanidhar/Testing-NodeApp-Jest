@@ -1,0 +1,13 @@
+# Files
+DCO
+.dockerignore
+LICENSE
+*.md
+NOTICE
+# Directories
+book
+contrib
+Documenatation
+etc
+local-dev
+# Allow `.git` to get sent for build vcs stamping.

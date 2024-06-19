@@ -144,7 +144,7 @@ services:
     image: jasonumiker/clair:latest
     container_name: clair
     ports:
-      - "6060:6060"
+      - "7070:7070"
       - "6061:6061"
     volumes:
       - ./clair-config.yaml:/config/config.yaml

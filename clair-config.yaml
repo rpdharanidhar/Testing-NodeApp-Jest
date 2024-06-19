@@ -6,7 +6,7 @@ clair:
       source: host=postgres user=clair password=clair dbname=clair sslmode=disable
   api:
     # API server
-    addr: :6060
+    addr: :7070
     healthAddr: :6061
     timeout: 900s
   updater:

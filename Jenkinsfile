@@ -38,6 +38,7 @@ pipeline {
             steps {
                 script {
                     // Install npm dependencies
+                    sh 'npm i'
                     sh 'sudo apt install npm -y'
                     sh 'npm install'
                     sh 'npm install --save-dev jest supertest'

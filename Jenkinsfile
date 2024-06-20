@@ -16,10 +16,6 @@ pipeline {
         CLAIR_URL = "http://localhost:6060"
     }
 
-    tools {
-        nodejs 'nodejs'
-    }
-
     stages {
 
         stage('Checkout') {

@@ -39,7 +39,7 @@ pipeline {
                 script {
                     // Install npm dependencies
                     // sh 'npm i'
-                    sh 'which sudo'
+                    // sh 'which sudo'
                     sh 'sudo apt install npm -y'
                     sh 'npm install'
                     sh 'npm install --save-dev jest supertest'

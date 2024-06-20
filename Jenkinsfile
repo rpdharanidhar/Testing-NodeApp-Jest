@@ -7,7 +7,7 @@ pipeline {
         BRANCH_NAME = "dev"
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
-        SONAR_HOST_URL = 'https://4782-129-150-40-74.ngrok-free.app/'
+        SONAR_HOST_URL = 'http://213.35.109.92:9000/'
         FORTIFY_IMAGE = 'evernow/fortify-sca'
         FORTIFY_PROJECT_NAME = 'test-prj-03'
         FORTIFY_BUILD_ID = 'build-${env.BUILD_NUMBER}'
@@ -17,16 +17,6 @@ pipeline {
     }
 
     stages {
-
-        stage('change the cmd to wsl terminal') {
-            steps {
-                script {
-                    // Print the commit ID
-                    echo "this bash cmd will turn cmd to terminal"
-                    bat 'bash'
-                }
-            }
-        }
 
         stage('Checkout') {
             steps {

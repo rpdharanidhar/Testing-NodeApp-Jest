@@ -40,6 +40,7 @@ pipeline {
                     // Install npm dependencies
                     // sh 'npm i'
                     // sh 'which sudo'
+                    sh 'docker exec -it jenkins bash'
                     sh 'sudo apt install npm -y'
                     sh 'npm install'
                     sh 'npm install --save-dev jest supertest'

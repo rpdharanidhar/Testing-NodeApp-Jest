@@ -16,6 +16,10 @@ pipeline {
         CLAIR_URL = "http://localhost:6060"
     }
 
+    tools {
+        nodejs 'nodejs'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -39,7 +43,7 @@ pipeline {
                 script {
                     // Install npm dependencies
                     // sh 'npm i'
-                    // sh 'sudo apt install npm -y'
+                    sh 'sudo apt install npm -y'
                     sh 'npm install'
                     sh 'npm install --save-dev jest supertest'
                 }

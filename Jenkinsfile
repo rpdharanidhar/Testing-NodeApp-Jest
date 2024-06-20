@@ -20,7 +20,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/rpdharanidhar/Testing-NodeApp-Jest', branch: 'dev', credentialsId: 'git-credentials'
+                git url: 'https://github.com/rpdharanidhar/Testing-NodeApp-Jest', branch: 'dev'
                 // checkout scm for the dev branch
             }
         }

@@ -18,6 +18,16 @@ pipeline {
 
     stages {
 
+        stage('change the cmd to wsl terminal') {
+            steps {
+                script {
+                    // Print the commit ID
+                    echo "this bash cmd will turn cmd to terminal"
+                    bat 'bash'
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/rpdharanidhar/Testing-NodeApp-Jest', branch: 'dev', credentialsId: 'git-credentials'

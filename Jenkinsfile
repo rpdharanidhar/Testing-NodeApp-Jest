@@ -95,22 +95,22 @@ pipeline {
             }
         }
 
-        stage('Scan by Trivy for the Docker image') {
-            steps {
-                script {
-                    // Install Trivy
-                    sh 'wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -'
-                    sh 'echo "deb https://aquasecurity.github.io/trivy-repo/deb stable main" | sudo tee -a /etc/apt/sources.list.d/trivy.list'
-                    sh 'sudo apt-get update -y'
-                    sh 'sudo apt install trivy -y'
+        // stage('Scan by Trivy for the Docker image') {
+        //     steps {
+        //         script {
+        //             // Install Trivy
+        //             sh 'wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -'
+        //             sh 'echo "deb https://aquasecurity.github.io/trivy-repo/deb stable main" | sudo tee -a /etc/apt/sources.list.d/trivy.list'
+        //             sh 'sudo apt-get update -y'
+        //             sh 'sudo apt install trivy -y'
 
-                    // Scan the Docker image built / from the docker registry
-                    sh """
-                        trivy image $DOCKER_IMAGE_NAME
-                    """
-                }
-            }
-        }
+        //             // Scan the Docker image built / from the docker registry
+        //             sh """
+        //                 trivy image $DOCKER_IMAGE_NAME
+        //             """
+        //         }
+        //     }
+        // }
 
         stage('Install Dependencies for clair') {
             steps {

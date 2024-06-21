@@ -2,12 +2,11 @@ pipeline {
     agent any
 
     environment {
-
         DOCKER_IMAGE_NAME = "rpdharanidhar/testing-nodeapp-jest"
         BRANCH_NAME = "dev"
         SONAR_LOGIN = "admin"
         SONAR_PASSWORD = "polar"
-        SONAR_HOST_URL = 'http://213.35.109.92:9000/'
+        SONAR_HOST_URL = 'http://168.138.184.191:9000/'
         FORTIFY_IMAGE = 'evernow/fortify-sca'
         FORTIFY_PROJECT_NAME = 'test-prj-03'
         FORTIFY_BUILD_ID = 'build-${env.BUILD_NUMBER}'
@@ -38,9 +37,7 @@ pipeline {
             steps {
                 script {
                     // Install npm dependencies
-                    // sh 'npm i'
-                    // sh 'which sudo'
-                    sh 'docker exec -it jenkins bash'
+                    sh 'which sudo'
                     sh 'sudo apt install npm -y'
                     sh 'npm install'
                     sh 'npm install --save-dev jest supertest'
@@ -80,7 +77,7 @@ pipeline {
                 script {
                     try {
                         def scannerHome = tool 'sonarqube-scanner';
-                        withSonarQubeEnv("SonarQube") {
+                        withSonarQubeEnv("sonarqube-server") {
                             sh """
                                 ${scannerHome}/bin/sonar-scanner \
                                     -Dsonar.projectKey=Testing-NodeApp-Jest \

@@ -100,7 +100,7 @@ pipeline {
                 script {
                     // Install Trivy
                     sh 'wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -'
-                    sh 'echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list'
+                    sh 'echo "deb https://aquasecurity.github.io/trivy-repo/deb stable main" | sudo tee -a /etc/apt/sources.list.d/trivy.list'
                     sh 'sudo apt-get update -y'
                     sh 'sudo apt install trivy -y'
 
